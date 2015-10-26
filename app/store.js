@@ -1,10 +1,14 @@
-import $ from 'jquery';
+import TriviaCollection from './models/trivia/trivia-collection';
+import Trivia from './models/trivia/trivia';
 
-$.ajaxSetup({
-  beforeSend(xhr, options) {
-    if(options.url.match(/api.parse.com/)) {
-      xhr.setRequestHeader('X-Parse-Application-Id', '');
-      xhr.setRequestHeader('X-Parse-REST-API-Key', '');
-    }
-  }
-})
+let trivia;
+
+export default {
+  getTriviaCollection() {
+      return (trivia = trivia || new TriviaCollection());
+  },
+
+  getTriviaModel() {
+    return new Trivia();
+  },
+}
