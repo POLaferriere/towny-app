@@ -12,8 +12,10 @@ var AddTrivia = React.createClass({
 	},
 
 	getInitialState() {
-		return {
-			trivia: store.getTriviaModel(),
+		if(this.props.params) {
+			return {trivia: this.props.triviaCollection.get(this.props.params.id)}
+		} else {
+			return {trivia: store.getTriviaModel()}
 		}
 	},
 
@@ -34,7 +36,7 @@ var AddTrivia = React.createClass({
 	render() {
 		return (
 			<form action="" onSubmit={this.handleSubmit}>
-				<input type="text" onKeyUp={this.handleEdit}/>
+				<input type="text" onKeyUp={this.handleEdit} defaultValue={this.state.trivia.get('body')}/>
 				<input type="submit"/>
 			</form>
 		)

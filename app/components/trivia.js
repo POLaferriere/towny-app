@@ -2,8 +2,9 @@ import React from 'react';
 import store from '../store'
 import _ from 'underscore'
 import { History } from 'react-router';
+import TriviaQuote from './trivia-quote';
 
-var Trivia = React.createClass({
+const Trivia = React.createClass({
 	mixins: [History],
 
 	getDefaultProps() {
@@ -41,7 +42,7 @@ var Trivia = React.createClass({
 				<h1>Trivia</h1>
 				<ul>
 					{triviaQuotes.map((quote) => {
-						return (<li key={quote.get('objectId')}>{quote.get('body')}</li>)
+						return (<TriviaQuote key={quote.get('objectId')} model={quote}/>)
 					})}
 				</ul>
 				<button onClick={this.handleAdd}>Add Something</button>

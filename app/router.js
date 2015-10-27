@@ -13,6 +13,7 @@ ReactDOM.render((
 			<IndexRoute component={Index}/>
 			<Route path='/trivia' component={Trivia}>
 				<Route path='new' component={AddTrivia}/>
+				<Route path='new/:id' component={AddTrivia}/>
 			</Route>
 		</Route>
 	</Router>
