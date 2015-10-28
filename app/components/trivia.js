@@ -30,7 +30,7 @@ const Trivia = React.createClass({
 
 	handleAdd(e) {
 		e.preventDefault();
-		this.history.pushState({}, '/trivia/new');
+		this.history.pushState({}, '/trivia/modal');
 
 	},
 
@@ -45,7 +45,7 @@ const Trivia = React.createClass({
 						return (<TriviaQuote key={quote.get('objectId')} model={quote}/>)
 					})}
 				</ul>
-				<button onClick={this.handleAdd}>Add Something</button>
+				<button onClick={this.handleAdd} data-reveal-id="myModal">Add Something</button>
 
 				{this.props.children}
 			</div>

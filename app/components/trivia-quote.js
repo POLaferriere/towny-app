@@ -1,9 +1,25 @@
 import React from 'react';
 import { History } from 'react-router';
+import _ from 'underscore';;
+import functions from 'functions'
 
 const TriviaQuote = React.createClass({
 	propTypes: {
 		model: React.PropTypes.object.isRequired,
+	},
+
+	getInitialState() {
+		return {
+			location: _.values(this.props.model.get('location')).join()
+		}
+	},
+
+	componentWillMount() {
+		functions.getLoc(this.state.location).then((results) => {
+			this.setState({
+				location: results.results[1].formatted_address
+			})
+		})
 	},
 
 	mixins: [History],
@@ -19,11 +35,15 @@ const TriviaQuote = React.createClass({
 	},
 
 	render() {
+		let body = this.props.model.get('body');
+		let location = this.state.location;
+
 		return(
 			<li>
-				<h5>{this.props.model.get('body')}</h5>
-				<button onClick={this.handleDelete}>Delete</button>
-				<button onClick={this.handleEdit}>Edit</button>
+				<h5>{body}</h5>
+				<p>{location}</p>
+				<button onClick={this.handleDelete} className='button alert'>Delete</button>
+				<button onClick={this.handleEdit} >Edit</button>
 			</li>
 		)
 	}
