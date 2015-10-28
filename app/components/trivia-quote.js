@@ -1,7 +1,8 @@
 import React from 'react';
 import { History } from 'react-router';
-import _ from 'underscore';;
-import functions from 'functions'
+import _ from 'underscore';
+import functions from 'functions';
+import moment from 'moment';
 
 const TriviaQuote = React.createClass({
 	propTypes: {
@@ -37,11 +38,13 @@ const TriviaQuote = React.createClass({
 	render() {
 		let body = this.props.model.get('body');
 		let location = this.state.location;
+		let created = this.props.model.get('createdAt')
 
 		return(
 			<li>
 				<h5>{body}</h5>
 				<p>{location}</p>
+				<p>{moment(created, moment.ISO_8601).fromNow()}</p>
 				<button onClick={this.handleDelete} className='button alert'>Delete</button>
 				<button onClick={this.handleEdit} >Edit</button>
 			</li>
