@@ -1,7 +1,7 @@
 import React from 'react';
 import store from '../store';
 import { History } from 'react-router';
-import functions from '../functions'
+import functions from '../functions';
 
 var AddTrivia = React.createClass({
 	mixins: [History],
@@ -21,11 +21,10 @@ var AddTrivia = React.createClass({
 	},
 
 	componentWillMount() {
-		 functions.getGeo().then((position) => {
-		 	this.setState({
-		 		trivia: this.state.trivia.set('location', {lat: position.coords.latitude, long: position.coords.longitude})
-		 	})
-		 })
+		let session = store.getSession();
+	 	this.setState({
+	 		trivia: this.state.trivia.set('location', session.get('location'))
+	 	})
 	},
 
 	handleEdit(event) {

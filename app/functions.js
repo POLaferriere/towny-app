@@ -7,6 +7,13 @@ export default {
 			navigator.geolocation.getCurrentPosition(resolve, reject)
 		});
 	},
+
+	latLng(geo) {
+		return {
+			lat: geo.coords.latitude,
+			lng: geo.coords.longitude,
+		}
+	},
 	
 	getLoc(position) {
 		return new Promise(function(resolve, reject) {
