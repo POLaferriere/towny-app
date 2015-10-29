@@ -8,6 +8,7 @@ import Index from './components/index';
 import Login from './components/login';
 import Logout from './components/logout';
 import Signup from './components/signup';
+import User from './components/user';
 import Trivia from './components/trivia';
 import AddTrivia from './components/add-trivia'
 import TriviaModal from './components/trivia-modal'
@@ -20,6 +21,7 @@ ReactDOM.render((
 			<Route path='/login' component={Login} />
 			<Route path='/logout' component={Logout} />
 			<Route path='/signup' component={Signup} />
+			<Route path='/user' component={User} />
 			<Route path='/trivia' component={Trivia} >
 				<Route path='modal' component={TriviaModal} />
 				<Route path='location' component={TriviaLocation} />

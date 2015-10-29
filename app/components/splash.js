@@ -12,8 +12,7 @@ const Splash = React.createClass({
 
 	handleUseCurrentLoc() {
 		let session = store.getSession();
-		session.setLocation();
-		this.props.onSetLocation();
+		session.setLocation().then(() => {this.props.onSetLocation()});
 	},
 
 	handleSuggestSelect(suggest) {

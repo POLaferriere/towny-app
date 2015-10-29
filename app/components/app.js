@@ -42,6 +42,7 @@ var App = React.createClass({
                   <li className="has-dropdown">
                     <Link to="/user">{session.hasUser() && store.getCurrentUser().get('username') || 'Guest'}</Link>
                     <ul className="dropdown">
+                      {session.hasUser() &&(<li><Link to={'/user'}>User Settings</Link></li>)}
                       {!localStorage.getItem('parse-session-token') && (<li><Link to={'/login'}>Login</Link></li>)}
                       {localStorage.getItem('parse-session-token') && (<li><Link to={'/logout'} onClick={this.handleLogout}>Logout</Link></li>)}
                       {!session.hasUser() && (<li><Link to={'/signup'}>Sign Up</Link></li>)}
