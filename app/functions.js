@@ -16,10 +16,11 @@ export default {
 	},
 	
 	getLoc(position) {
+		let pos = _.values(position).join()
 		return new Promise(function(resolve, reject) {
-			console.log(position);	
+			console.log(pos);	
 			$.ajax({
-				url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position + '&key=AIzaSyAwVYUhWWRWtPBzlPZLRp56hp714OLnRwk',
+				url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + pos + '&result_type=locality&key=AIzaSyAwVYUhWWRWtPBzlPZLRp56hp714OLnRwk',
 				success: resolve,
 				error: reject,
 			})

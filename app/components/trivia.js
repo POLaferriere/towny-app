@@ -30,7 +30,7 @@ const Trivia = React.createClass({
 
 	handleAdd(e) {
 		e.preventDefault();
-		this.history.pushState({}, '/trivia/modal');
+		this.history.pushState({}, '/trivia/new');
 
 	},
 

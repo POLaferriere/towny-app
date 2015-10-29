@@ -21,4 +21,8 @@ export default {
   getUser(options) {
     return new User(options);
   },
+
+  getCurrentUser() {
+    return session.get('currentUser');
+  }
 }

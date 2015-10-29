@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { History } from 'react-router';
+import store from '../store';
 
 var TriviaModal = React.createClass({
   mixins: [History],
 
   handleUseLoc(e) {
     e.preventDefault();
-    this.history.pushState({}, '/trivia/new')
+    store.getSession().setLocation().then(() => {
+      this.history.pushState({}, '/trivia/new')
+    })
   },
 
   handleChooseLoc(e) {

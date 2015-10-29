@@ -11,14 +11,14 @@ const TriviaQuote = React.createClass({
 
 	getInitialState() {
 		return {
-			location: _.values(this.props.model.get('location')).join()
+			location: 'undefined',
 		}
 	},
 
 	componentWillMount() {
-		functions.getLoc(this.state.location).then((results) => {
+		functions.getLoc(this.props.model.get('location')).then((results) => {
 			this.setState({
-				location: results.results[1].formatted_address
+				location: results.results[0].formatted_address
 			})
 		})
 	},

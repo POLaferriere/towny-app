@@ -1,6 +1,6 @@
 import React from 'react';
 import store from '../store';
-import { History } from 'react-router';
+import { Link, History } from 'react-router';
 import functions from '../functions';
 
 var AddTrivia = React.createClass({
@@ -22,9 +22,14 @@ var AddTrivia = React.createClass({
 
 	componentWillMount() {
 		let session = store.getSession();
-	 	this.setState({
-	 		trivia: this.state.trivia.set('location', session.get('location'))
-	 	})
+		let location = session.get('location');
+		console.log(location);
+		functions.getLoc(location).then((results) => {
+			console.log(results);
+			this.setState({
+	 			trivia: this.state.trivia.set('location', results.results[0].formatted_address)
+	 		})
+		})
 	},
 
 	handleEdit(event) {
@@ -42,9 +47,14 @@ var AddTrivia = React.createClass({
 	},
 
 	render() {
+		let session = store.getSession();
+		let location = this.state.trivia.get('location');
 		return (
 			<form action="" onSubmit={this.handleSubmit}>
 				<input type="text" onKeyUp={this.handleEdit} defaultValue={this.state.trivia.get('body') || ''}/>
+				<p>{'You are posting about ' + this.state.trivia.get('location')}
+					<Link to={'/trivia/modal/'}>Change your location</Link>
+				</p>
 				<input type="submit"/>
 			</form>
 		)
