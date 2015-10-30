@@ -38,21 +38,6 @@ const User = React.createClass({
 		})
 	},
 
-	
-
-	// handleChangePass(e) {
-	// 	e.preventDefault();
-	// 	let user = store.getCurrentUser();
-	// 	let password = this.refs.password.value;
-	// 	$.ajax({
-	// 		url: 'https://api.parse.com/1/users/' + user.get('objectId'),
-	// 		method: 'PUT',
-	// 		data: JSON.stringify({
-	// 			password: password
-	// 		})
-	// 	})
-	// },
-
 	render() {
 		let user = store.getCurrentUser().toJSON();
 		console.log(user);

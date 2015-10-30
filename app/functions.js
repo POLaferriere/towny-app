@@ -18,7 +18,6 @@ export default {
 	getLoc(position) {
 		let pos = _.values(position).join()
 		return new Promise(function(resolve, reject) {
-			console.log(pos);	
 			$.ajax({
 				url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + pos + '&result_type=locality&key=AIzaSyAwVYUhWWRWtPBzlPZLRp56hp714OLnRwk',
 				success: resolve,

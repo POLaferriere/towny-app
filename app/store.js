@@ -2,8 +2,11 @@ import TriviaCollection from './models/trivia/trivia-collection';
 import Trivia from './models/trivia/trivia';
 import Session from './models/session';
 import User from './models/user';
+import CommentCollection from './models/comment-collection'
 
 let trivia, session;
+
+let commentsCache = {};
 
 export default {
   getTriviaCollection() {
@@ -24,5 +27,20 @@ export default {
 
   getCurrentUser() {
     return session.get('currentUser');
+  },
+
+  getTriviaComments(id) {
+    let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {triviaId: id}));
+    return comments;    
+  },
+
+  commentOnTrivia(id, comment) {
+    let userId = session.get('currentUser').get('objectId');
+    let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {triviaId: id, userId: userId}))
+    comments.create({
+      text: comment,
+      comment_on: {objectId: id},
+      comment_by: {objectId: userId},
+    })
   }
 }

@@ -23,11 +23,10 @@ var AddTrivia = React.createClass({
 	componentWillMount() {
 		let session = store.getSession();
 		let location = session.get('location');
-		console.log(location);
+		this.state.trivia.set('location', location);
 		functions.getLoc(location).then((results) => {
-			console.log(results);
 			this.setState({
-	 			trivia: this.state.trivia.set('location', results.results[0].formatted_address)
+	 			location: results.results[0].formatted_address
 	 		})
 		})
 	},
@@ -42,17 +41,19 @@ var AddTrivia = React.createClass({
 	handleSubmit(e) {
 		e.preventDefault();
 		var _this = this;
+		debugger;
 		this.state.trivia.save().then(() => _this.props.triviaCollection.fetch());
 		this.history.pushState({}, '/trivia');
 	},
 
 	render() {
 		let session = store.getSession();
-		let location = this.state.trivia.get('location');
+		let location = this.state.location;
+		let body = this.state.trivia.get('body');
 		return (
 			<form action="" onSubmit={this.handleSubmit}>
-				<input type="text" onKeyUp={this.handleEdit} defaultValue={this.state.trivia.get('body') || ''}/>
-				<p>{'You are posting about ' + this.state.trivia.get('location')}
+				<input type="text" onKeyUp={this.handleEdit} defaultValue={(body) || ''}/>
+				<p>{'You are posting about ' + location}
 					<Link to={'/trivia/modal/'}>Change your location</Link>
 				</p>
 				<input type="submit"/>
