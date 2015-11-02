@@ -29,27 +29,29 @@ var App = React.createClass({
         {session.hasLocation() && 
           (<div>
             <nav className="top-bar" data-topbar role="navigation">
-              <ul className="title-area">
-                <li className="name">
-                  <h1><IndexLink to="/">Towny</IndexLink></h1>
-                </li>
-              </ul>
-              <section className="top-bar-section">
-                <ul className="left">
-                  <li><Link to="/trivia">Trivia</Link></li>
-                </ul>
-                <ul className="right">
-                  <li className="has-dropdown">
-                    <Link to="/user">{session.hasUser() && store.getCurrentUser().get('username') || 'Guest'}</Link>
-                    <ul className="dropdown">
-                      {session.hasUser() &&(<li><Link to={'/user'}>User Settings</Link></li>)}
-                      {!localStorage.getItem('parse-session-token') && (<li><Link to={'/login'}>Login</Link></li>)}
-                      {localStorage.getItem('parse-session-token') && (<li><Link to={'/logout'} onClick={this.handleLogout}>Logout</Link></li>)}
-                      {!session.hasUser() && (<li><Link to={'/signup'}>Sign Up</Link></li>)}
-                    </ul>
+              <div className="nav-container">
+                <ul className="title-area">
+                  <li className="name">
+                    <h1><IndexLink to="/">Towny</IndexLink></h1>
                   </li>
                 </ul>
-              </section>
+                <section className="top-bar-section">
+                  <ul className="left">
+                    <li><Link to="/trivia">Trivia</Link></li>
+                  </ul>
+                  <ul className="right">
+                    <li className="has-dropdown">
+                      <Link to="/user">{session.hasUser() && store.getCurrentUser().get('username') || 'Guest'}</Link>
+                      <ul className="dropdown">
+                        {session.hasUser() &&(<li><Link to={'/user'}>User Settings</Link></li>)}
+                        {!localStorage.getItem('parse-session-token') && (<li><Link to={'/login'}>Login</Link></li>)}
+                        {localStorage.getItem('parse-session-token') && (<li><Link to={'/logout'} onClick={this.handleLogout}>Logout</Link></li>)}
+                        {!session.hasUser() && (<li><Link to={'/signup'}>Sign Up</Link></li>)}
+                      </ul>
+                    </li>
+                  </ul>
+                </section>
+              </div>
             </nav>
 
             {this.props.children}

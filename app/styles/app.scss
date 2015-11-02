@@ -1,5 +1,5 @@
 @import 'bourbon';
-// @import 'neat';
+@import 'neat';
 @import 'foundation';
 @import url(https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,700);
 
@@ -8,6 +8,7 @@ $splash-text: white;
 $suggest-background: white;
 $suggest-text: black;
 $highlight: #7FD605;
+$highlight2: #398CB7;
 
 //--------------Intro Splash----------------//
 .intro-splash {
@@ -33,13 +34,6 @@ $highlight: #7FD605;
 		color: $splash-text;
 		font-size: 5rem;
 		margin-bottom: 150px;
-	}
-	button {
-		@include button(
-			$bg: $highlight
-		);
-		width: 75%;
-		font-size: 1.5rem;
 	}
 	.geosuggest {
 		margin-left: 12.5%;
@@ -67,6 +61,25 @@ $highlight: #7FD605;
 			}
 		}
 	}
+}
+
+.get-hometown {
+	@include button(
+		$bg: $highlight
+	);
+	font-size: 1rem;
+}
+
+.user-hometown {
+	@include button(
+		$bg: $highlight2
+	);
+	font-size: 1rem;	
+}
+
+//--------------App Header----------------//
+.nav-container {
+	@include outer-container();
 }
 
 

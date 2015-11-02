@@ -3,7 +3,7 @@ import Geosuggest from 'react-geosuggest';
 import {History} from 'react-router';
 import store from '../store';
 import Loading from 'react-loading';
-import {Button} from 'react-bootstrap';
+import {Button, ButtonGroup} from 'react-bootstrap';
 
 const Splash = React.createClass({
 	propTypes: {
@@ -31,6 +31,11 @@ const Splash = React.createClass({
 		})
 	},
 
+	handleUseUserLoc() {
+		let session = store.getSession();
+		let loc = session.currentUser.get('hometown');
+	},
+
 	handleSuggestSelect(suggest) {
 		let session = store.getSession();
 		session.setLocation(suggest.location)
@@ -44,7 +49,16 @@ const Splash = React.createClass({
 				<div className='splash-container'>
 					<h1>Towny</h1>
 					<p>What's your hometown?</p>
-					<Button bsStyle='primary' disabled={isLoading} onClick={this.handleUseCurrentLoc}>{isLoading ? 'Getting location...' : 'Use current location'}</Button>
+					<ButtonGroup className="login-buttons" justified>
+						<Button 
+							className='get-hometown'
+							bsStyle='primary' 
+							disabled={isLoading} 
+							onClick={this.handleUseCurrentLoc}>
+							{isLoading ? 'Getting location...' : 'Use current location'}
+						</Button>
+						<Button className='user-hometown' onClick={this.handleUseUserLoc}>Go to your Hometown</Button>
+					</ButtonGroup>
 					<p>or</p>
 					<Geosuggest className='splash-geosuggest' onSuggestSelect={this.handleSuggestSelect} placeholder='Find your town'></Geosuggest>
 				</div>
