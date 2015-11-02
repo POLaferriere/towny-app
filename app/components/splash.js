@@ -3,6 +3,7 @@ import Geosuggest from 'react-geosuggest';
 import {History} from 'react-router';
 import store from '../store';
 import Loading from 'react-loading';
+import {Button} from 'react-bootstrap';
 
 const Splash = React.createClass({
 	propTypes: {
@@ -37,14 +38,16 @@ const Splash = React.createClass({
 	},
 
 	render() {
+		let isLoading = this.state.isLoading;
 		return (
-			<div>
-				<h1>Towny</h1>
-				<p>Where's your town?</p>
-				<button onClick={this.handleUseCurrentLoc}>Use current location</button>
-				<p>or</p>
-				<Geosuggest onSuggestSelect={this.handleSuggestSelect}></Geosuggest>
-				{this.state.isLoading && (<Loading type='spokes' color='black' />)}
+			<div className='intro-splash'>
+				<div className='splash-container'>
+					<h1>Towny</h1>
+					<p>What's your hometown?</p>
+					<Button bsStyle='primary' disabled={isLoading} onClick={this.handleUseCurrentLoc}>{isLoading ? 'Getting location...' : 'Use current location'}</Button>
+					<p>or</p>
+					<Geosuggest className='splash-geosuggest' onSuggestSelect={this.handleSuggestSelect} placeholder='Find your town'></Geosuggest>
+				</div>
 			</div>
 		)
 	}
