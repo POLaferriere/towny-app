@@ -16,9 +16,18 @@ var scssIncludePaths = {
     './node_modules/foundation-sites/scss/',
     './node_modules/bourbon/app/assets/stylesheets/',
     './node_modules/bourbon-neat/app/assets/stylesheets/',
+
   ]
 };
 var scssIncludeParams = decodeURIComponent(param(scssIncludePaths));
+
+var cssIncludePaths = {
+  includePaths: [
+    './node_modules/bootstrap/dist/css/'
+  ]
+};
+
+var cssIncludeParams = decodeURIComponent(param(cssIncludePaths));
 
 var webpackConfig = {
   context: path.resolve(__dirname, 'app'),
@@ -41,7 +50,7 @@ var webpackConfig = {
   ],
 
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss'],
+    extensions: ['', '.js', '.jsx', '.scss', '.css'],
     modulesDirectories: ['app', 'web_modules', 'node_modules']
   },
 
@@ -56,7 +65,32 @@ var webpackConfig = {
         test: /\.scss$/,
         loader: "style-loader!css-loader!sass-loader?outputStyle=expanded&" + scssIncludeParams,
         include: path.resolve(__dirname, 'app', 'styles')
-      }
+      },
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader?outputStyle=expanded&" + cssIncludeParams,
+        include: path.resolve(__dirname, 'app', 'styles')
+      },
+      {
+        test: /.woff$/, 
+        loader: "url-loader?limit=10000&mimetype=application/font-woff" 
+      },
+      {
+        test: /.woff2$/, 
+        loader: "url-loader?limit=10000&mimetype=application/font-woff" 
+      },
+      { 
+        test: /.ttf$/,
+        loader: "url-loader?limit=10000&mimetype=application/octet-stream" 
+      },
+      { 
+        test: /.eot$/,
+        loader: "file-loader" 
+      },
+      {
+        test: /.svg$/,
+        loader: "url-loader?limit=10000&mimetype=image/svg+xml" 
+      },
     ]
   }
 };

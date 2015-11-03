@@ -49,7 +49,7 @@ const Splash = React.createClass({
 				<div className='splash-container'>
 					<h1>Towny</h1>
 					<p>What's your hometown?</p>
-					<ButtonGroup className="login-buttons" justified>
+					<ButtonGroup className="login-buttons">
 						<Button 
 							className='get-hometown'
 							bsStyle='primary' 

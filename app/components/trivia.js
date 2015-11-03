@@ -38,8 +38,7 @@ const Trivia = React.createClass({
 		let triviaQuotes = this.props.trivia || {};
 
 		return (
-			<div>
-				<h1>Trivia</h1>
+			<div className='trivia-container'>
 				<ul>
 					{triviaQuotes.map((quote) => {
 						return (<TriviaQuote key={quote.get('objectId')} model={quote}/>)

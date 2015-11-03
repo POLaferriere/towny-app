@@ -72,9 +72,8 @@ const TriviaQuote = React.createClass({
 		let comments = this.state.comments.length;
 		//TODO add code for when there are no comments
 		return(
-			<li>
-				<h5>{body}</h5>
-				<p>{location}</p>
+			<li className='trivia-quote'>
+				<h5 className='trivia-quote-text'>{body}</h5>
 				<p>{moment(created, moment.ISO_8601).fromNow()}</p>
 				<p onClick={this.seeComments}><span>{comments}</span>Comments</p>
 				{this.state.seeComments && this.state.comments.map((comment) => {

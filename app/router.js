@@ -13,20 +13,22 @@ import Trivia from './components/trivia';
 import AddTrivia from './components/add-trivia'
 import TriviaModal from './components/trivia-modal'
 import TriviaLocation from './components/trivia-location'
+import Town from './components/town'
 
 ReactDOM.render((
 	<Router>
 		<Route path='/' component={App} >
-			<IndexRoute component={Index} />
 			<Route path='/login' component={Login} />
 			<Route path='/logout' component={Logout} />
 			<Route path='/signup' component={Signup} />
 			<Route path='/user' component={User} />
-			<Route path='/trivia' component={Trivia} >
-				<Route path='modal' component={TriviaModal} />
-				<Route path='location' component={TriviaLocation} />
-				<Route path='new' component={AddTrivia} />
-				<Route path='new/:id' component={AddTrivia} />
+			<Route path='/town' component={Town}>
+				<Route path='trivia' component={Trivia} >
+					<Route path='modal' component={TriviaModal} />
+					<Route path='location' component={TriviaLocation} />
+					<Route path='new' component={AddTrivia} />
+					<Route path='new/:id' component={AddTrivia} />
+				</Route>
 			</Route>
 		</Route>
 	</Router>

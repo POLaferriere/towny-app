@@ -1,6 +1,7 @@
 @import 'bourbon';
 @import 'neat';
-@import 'foundation';
+// @import 'foundation';
+@import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 @import url(https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,700);
 
 $splash-background: black;
@@ -28,21 +29,23 @@ $highlight2: #398CB7;
 	left: 50%;
 	transform: translatex(-50%);
 	text-align: center;
+	font-size: 2rem;
 	h1 {
 		font-family: 'Quattrocento Sans', sans-serif;
 		text-transform: uppercase;
 		color: $splash-text;
-		font-size: 5rem;
+		font-size: 6rem;
 		margin-bottom: 150px;
 	}
 	.geosuggest {
-		margin-left: 12.5%;
-		width: 75%;
+		width: 100%;
 	}
 	.geosuggest__input {
+		width: 50%;
+		color: black;
 		text-align: center;
 		margin-bottom: 0;
-		font-size: 1rem;
+		font-size: 2rem;
 		&:focus {
 			border-color: $highlight;
 			border: 3px;
@@ -64,23 +67,17 @@ $highlight2: #398CB7;
 }
 
 .get-hometown {
-	@include button(
-		$bg: $highlight
-	);
-	font-size: 1rem;
+	background: $highlight;
+	font-size: 2rem;
 }
 
 .user-hometown {
-	@include button(
-		$bg: $highlight2
-	);
-	font-size: 1rem;	
+	background: $highlight2;
+	font-size: 2rem;	
 }
 
 //--------------App Header----------------//
-.nav-container {
-	@include outer-container();
-}
+
 
 
 //---------------Add Trivia Modal--------------//
@@ -108,5 +105,48 @@ $highlight2: #398CB7;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background: white;
+}
+
+//-------------Town Page--------------//
+.town-container {
+	@include outer-container();
+}
+
+.town-header {
+	@include fill-parent();
+	position: relative;
+	height: 200px;
+	border: 1px solid black;
+	margin-bottom: 40px;
+	.town-header-name {
+		padding: 30px;
+		position: absolute;
+		bottom: 0px;
+		left: 50px;
+		transform: translatey(50%);
+		background: $splash-background;
+		color: $splash-text;
+	}
+}
+
+.side-nav {
+	@include span-columns(3);
+	float: left;
+}
+
+//----------------Trivia-----------------//
+.trivia-container {
+	@include span-columns(9);
+}
+
+.trivia-quote {
+	@include span-columns(6 of 9);
+	list-style: none;
+	background: $splash-background;
+	color: $splash-text;
+	margin: 10px 0;
+	.trivia-quote-text {
+		font-size: 1.5rem;
+	}
 }
 
