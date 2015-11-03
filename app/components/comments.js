@@ -1,39 +1,57 @@
 import React from 'react';
+import Comment from './comment';
 import CommentForm from './comment-form';
 
 const Comments = React.createClass({
 	propTypes: {
-		text: React.PropTypes.string.isRequired,
+		comments: React.PropTypes.object.isRequired,
 		triviaId: React.PropTypes.string.isRequired,
-		onComment: React.PropTypes.func
+		onChange: React.PropTypes.func,
 	},
 
 	getInitialState() {
-		return {
+		return{
 			commenting: false,
 		}
 	},
 
-	handleComment() {
+	setCommenting() {
 		this.setState({
-			commenting:true,
+			commenting: true,
 		})
+	},
+
+	onRemove() {
+		this.forceUpdate();
+		this.props.onChange();
 	},
 
 	onComment() {
 		this.setState({
 			commenting: false,
 		});
-		this.props.onComment();
+		this.props.onChange();
 	},
 
 	render(){
+		let triviaId = this.props.triviaId;
+
 		return (
-			<div>
-				<p>{this.props.text}</p>
-				<button onClick={this.handleComment}>Comment</button>
-				{this.state.commenting && (<CommentForm triviaId={this.props.triviaId} onComment={this.onComment}/>)}
-			</div>
+			<ul className='trivia-quote-comments'>
+				{!this.props.comments.length && !this.state.commenting &&
+					<p>There's nothing here. <span className='trivia-quote-comments-first' onClick={this.setCommenting}>Be the first to say something</span></p>}
+				{this.props.comments.map((comment) => {
+					return (
+					<Comment 
+						text={comment.get('text')} 
+						triviaId={triviaId} 
+						onReply={this.setCommenting} 
+						onRemove={this.onRemove}
+						commentId={comment.get('objectId')} 
+						key={comment.get('objectId')}/>)}
+				)}
+				{this.state.commenting && (<CommentForm triviaId={triviaId} onComment={this.onComment}/>)}
+			</ul>
 		)
 	}
 })

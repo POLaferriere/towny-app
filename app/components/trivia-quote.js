@@ -5,7 +5,9 @@ import functions from 'functions';
 import moment from 'moment';
 import CommentForm from './comment-form';
 import store from '../store';
-import Comments from './comments'
+import Comments from './comments';
+import {Glyphicon} from 'react-bootstrap';
+import AddTrivia from './add-trivia';
 
 const TriviaQuote = React.createClass({
 	propTypes: {
@@ -15,6 +17,7 @@ const TriviaQuote = React.createClass({
 	getInitialState() {
 		return {
 			location: 'undefined',
+			isEditing: false,
 			seeComments: false,
 			commenting: false,
 			comments: store.getTriviaComments(this.props.model.get('objectId')),
@@ -43,7 +46,9 @@ const TriviaQuote = React.createClass({
 
 	handleEdit(e) {
 		e.preventDefault();
-		this.history.pushState({}, '/trivia/new/' + this.props.model.get('objectId'));
+		this.setState({
+			isEditing: true,
+		})
 	},
 
 	handleComment(e) {
@@ -54,14 +59,18 @@ const TriviaQuote = React.createClass({
 	},
 
 	seeComments() {
-		console.log('see');
-		this.setState({
-			seeComments: true,
-		})
+		this.state.seeComments ?
+		this.setState({seeComments: false}) : this.setState({seeComments: true});
 	},
 
-	onComment() {
+	onChange() {
 		this.forceUpdate();
+	},
+
+	onSubmit() {
+		this.setState({
+			isEditing: false,
+		});
 	},
 
 	render() {
@@ -69,19 +78,21 @@ const TriviaQuote = React.createClass({
 		let location = this.state.location;
 		let created = this.props.model.get('createdAt');
 		let triviaId = this.props.model.get('objectId');
-		let comments = this.state.comments.length;
+		let commentLength = this.state.comments.length;
+		let comments = this.state.comments
 		//TODO add code for when there are no comments
 		return(
 			<li className='trivia-quote'>
-				<h5 className='trivia-quote-text'>{body}</h5>
-				<p>{moment(created, moment.ISO_8601).fromNow()}</p>
-				<p onClick={this.seeComments}><span>{comments}</span>Comments</p>
-				{this.state.seeComments && this.state.comments.map((comment) => {
-					return <Comments text={comment.get('text')} triviaId={triviaId} key={comment.get('objectId')}/> 
-				})}
+				{!this.state.isEditing && <h5 className='trivia-quote-text'>{body}</h5>}
+				{this.state.isEditing && <AddTrivia triviaId={triviaId} onSubmit={this.onSubmit}/>}
+				<div className="trivia-quote-sub-header">
+					<Glyphicon glyph='comment' className='trivia-quote-sub-header-comments' onClick={this.seeComments}><span className='comment-length'>{commentLength}</span>Comments</Glyphicon>
+					<p className='trivia-quote-date'>{moment(created, moment.ISO_8601).fromNow()}</p>
+				</div>
+				{this.state.seeComments && <Comments comments={comments} triviaId={triviaId} onChange={this.onChange}/>}
 
-				<button onClick={this.handleDelete} className='button alert'>Delete</button>
-				<button onClick={this.handleEdit} >Edit</button>
+				<Glyphicon glyph='remove' className='trivia-quote-remove' onClick={this.handleDelete} />
+				<Glyphicon glyph='pencil' className='trivia-quote-edit' onClick={this.handleEdit} />
 				
 			</li>
 		)

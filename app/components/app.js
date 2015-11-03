@@ -49,7 +49,7 @@ var App = React.createClass({
         {session.hasLocation() && 
           (<div>
             <Navbar inverse>
-              <NavBrand><a href="/town">Towny</a></NavBrand>
+              <NavBrand><a href="/">Towny</a></NavBrand>
               <Nav right>
                 <NavDropdown 
                   eventKey={3} 
@@ -67,6 +67,8 @@ var App = React.createClass({
            
 
             {this.props.children}
+
+            <footer className='footer'/>
           </div>)}
       </div>
   )}

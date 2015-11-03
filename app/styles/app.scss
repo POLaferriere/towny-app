@@ -4,12 +4,19 @@
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 @import url(https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,700);
 
+$dark-grey: #333;
+$very-light-grey: #eee;
+
 $splash-background: black;
 $splash-text: white;
 $suggest-background: white;
 $suggest-text: black;
 $highlight: #7FD605;
 $highlight2: #398CB7;
+
+body {
+	background: $very-light-grey;
+}
 
 //--------------Intro Splash----------------//
 .intro-splash {
@@ -117,14 +124,14 @@ $highlight2: #398CB7;
 	position: relative;
 	height: 200px;
 	border: 1px solid black;
-	margin-bottom: 40px;
+	margin-bottom: 50px;
 	.town-header-name {
 		padding: 30px;
 		position: absolute;
 		bottom: 0px;
 		left: 50px;
 		transform: translatey(50%);
-		background: $splash-background;
+		background: $dark-grey;
 		color: $splash-text;
 	}
 }
@@ -132,6 +139,9 @@ $highlight2: #398CB7;
 .side-nav {
 	@include span-columns(3);
 	float: left;
+	a {
+		color: $highlight2;
+	}
 }
 
 //----------------Trivia-----------------//
@@ -139,14 +149,123 @@ $highlight2: #398CB7;
 	@include span-columns(9);
 }
 
+.trivia-add {
+	position: fixed;
+	top: 85%;
+	right: 25%;
+	font-size: 6rem;
+	color: $highlight;
+}
+
 .trivia-quote {
 	@include span-columns(6 of 9);
+	position: relative;
 	list-style: none;
-	background: $splash-background;
+	background: $dark-grey;
 	color: $splash-text;
 	margin: 10px 0;
+	padding: 25px 10px 10px;
 	.trivia-quote-text {
-		font-size: 1.5rem;
+		font-size: 1.8rem;
+	}
+	&:hover .trivia-quote-remove,
+	&:hover .trivia-quote-edit {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
 	}
 }
 
+.trivia-quote-remove,
+.trivia-quote-edit {
+	position: absolute;
+	top: 10px;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.trivia-quote-remove {
+	right: 10px;
+}
+
+.trivia-quote-edit {
+	right: 40px;
+}
+
+.trivia-quote-sub-header {
+	@include clearfix();
+	> * {
+		display: inline-block;
+	}
+	.trivia-quote-date {
+		float: right;
+	}
+	.trivia-quote-sub-header-comments {
+		float: left;
+		cursor: pointer;
+		.comment-length {
+			margin: 0 5px;
+		}
+	}
+}
+
+.trivia-quote-comments {
+	list-style: none;
+}
+
+.trivia-quote-comments-first {
+	cursor: pointer;
+	color: $highlight;
+}
+
+.trivia-quote-comment {
+	position: relative;
+	&:hover .trivia-quote-comment-remove {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
+	}
+}
+
+.trivia-quote-comment-reply {
+	color: $highlight;
+	cursor: pointer;
+}
+
+.trivia-quote-comment-remove {
+	position: absolute;
+	right: 20px;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+}
+//---------------Comment Form--------------//
+.comment-form-input {
+	color: black;
+	width: 90%;
+}
+
+//----------------Add Trivia-----------------//
+.add-trivia {
+	@include span-columns(6 of 9);
+	position: relative;
+	margin-left: 40px;
+}
+
+.add-trivia-input {
+	width: 94%;
+	color: black;
+	margin-bottom: 5px;
+}
+
+.add-trivia-add {
+	position: absolute;
+	top: 0;
+	color: $dark-grey;
+	background: $very-light-grey;
+	font-size: 2.6rem;
+	cursor: pointer;
+}
+
+//------------------Footer------------------//
+.footer {
+	height: 150px;
+}

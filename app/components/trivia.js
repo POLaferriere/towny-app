@@ -3,6 +3,8 @@ import store from '../store'
 import _ from 'underscore'
 import { History } from 'react-router';
 import TriviaQuote from './trivia-quote';
+import {Glyphicon} from 'react-bootstrap';
+import AddTrivia from './add-trivia'
 
 const Trivia = React.createClass({
 	mixins: [History],
@@ -16,6 +18,7 @@ const Trivia = React.createClass({
 	getInitialState() {
 		return {
 			triviaQuotes: [],
+			addingTrivia: false,
 		}
 	},
 
@@ -30,8 +33,15 @@ const Trivia = React.createClass({
 
 	handleAdd(e) {
 		e.preventDefault();
-		this.history.pushState({}, '/trivia/new');
+		this.setState({
+			addingTrivia: true,
+		})
+	},
 
+	onSubmit() {
+		this.setState({
+			addingTrivia: false,
+		})
 	},
 
 	render() {
@@ -39,14 +49,14 @@ const Trivia = React.createClass({
 
 		return (
 			<div className='trivia-container'>
+				{this.state.addingTrivia && <AddTrivia onSubmit={this.onSubmit}/>}
+
 				<ul>
 					{triviaQuotes.map((quote) => {
 						return (<TriviaQuote key={quote.get('objectId')} model={quote}/>)
 					})}
 				</ul>
-				<button onClick={this.handleAdd} data-reveal-id="myModal">Add Something</button>
-
-				{this.props.children}
+				<Glyphicon glyph='plus-sign' className='trivia-add' onClick={this.handleAdd} />
 			</div>
 		);
 	}

@@ -7,6 +7,7 @@ const Comment = Backbone.Model.extend({
 		comment_on: {},
 		comment_by: {},
 	},
+	urlRoot: 'https://api.parse.com/1/classes/Comment',
 
 	toJSON(options) {
     if(options) {

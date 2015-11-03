@@ -2,8 +2,14 @@ import React from 'react';
 import store from '../store';
 import { Link, History } from 'react-router';
 import functions from '../functions';
+import {Glyphicon} from 'react-bootstrap';
 
 var AddTrivia = React.createClass({
+	propTypes: {
+		triviaId: React.PropTypes.string,
+		onSubmit: React.PropTypes.func,
+	},
+
 	mixins: [History],
 
 	getDefaultProps() {
@@ -13,8 +19,9 @@ var AddTrivia = React.createClass({
 	},
 
 	getInitialState() {
-		if(this.props.params.id) {
-			return {trivia: this.props.triviaCollection.get(this.props.params.id)}
+		if(this.props.triviaId) {
+			console.log(this.props.triviaCollection.get(this.props.triviaId))
+			return {trivia: this.props.triviaCollection.get(this.props.triviaId)}
 		} else {
 			return {trivia: store.getTriviaModel()}
 		}
@@ -41,9 +48,8 @@ var AddTrivia = React.createClass({
 	handleSubmit(e) {
 		e.preventDefault();
 		var _this = this;
-		debugger;
 		this.state.trivia.save().then(() => _this.props.triviaCollection.fetch());
-		this.history.pushState({}, '/trivia');
+		this.props.onSubmit();
 	},
 
 	render() {
@@ -51,12 +57,9 @@ var AddTrivia = React.createClass({
 		let location = this.state.location;
 		let body = this.state.trivia.get('body');
 		return (
-			<form action="" onSubmit={this.handleSubmit}>
-				<input type="text" onKeyUp={this.handleEdit} defaultValue={(body) || ''}/>
-				<p>{'You are posting about ' + location}
-					<Link to={'/trivia/modal/'}>Change your location</Link>
-				</p>
-				<input type="submit"/>
+			<form className='add-trivia' onSubmit={this.handleSubmit}>
+				<input className='add-trivia-input' type="text" onKeyUp={this.handleEdit} defaultValue={(body) || ''}/>
+				<Glyphicon glyph='plus' className='add-trivia-add' onClick={this.handleSubmit}/>
 			</form>
 		)
 	}
