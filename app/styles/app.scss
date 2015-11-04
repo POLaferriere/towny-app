@@ -264,6 +264,45 @@ body {
 	font-size: 2.6rem;
 	cursor: pointer;
 }
+//----------------Pictures----------------//
+.pictures-container {
+	@include span-columns(9);
+}
+.picture-container {
+	@include span-columns(3 of 9);
+	&:nth-of-type(3) {
+		@include omega();
+	}
+	img {
+		width: 95%;
+	}
+}
+.pictures-add {
+	position: fixed;
+	top: 85%;
+	right: 25%;
+	font-size: 6rem;
+	color: $highlight;
+	cursor: pointer;
+}
+
+.modal-image,
+.modal-input {
+	margin-left: 2.5%;
+	width: 95%;
+}
+
+.modal-input {
+	font-size: 1.8rem;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.modal-submit {
+	display: block;
+	margin: 0 auto;
+}
+
 
 //------------------Footer------------------//
 .footer {

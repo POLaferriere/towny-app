@@ -1,4 +1,5 @@
 import Backbone from 'backbone';
+import _ from 'underscore';
 
 const Picture = Backbone.Model.extend({
 	idAttribute: 'objectId',
