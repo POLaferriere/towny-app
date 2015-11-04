@@ -12,11 +12,11 @@ import AddTrivia from './add-trivia';
 const TriviaQuote = React.createClass({
 	propTypes: {
 		model: React.PropTypes.object.isRequired,
+		onChange: React.PropTypes.func,
 	},
 
 	getInitialState() {
 		return {
-			location: 'undefined',
 			isEditing: false,
 			seeComments: false,
 			commenting: false,
@@ -30,11 +30,6 @@ const TriviaQuote = React.createClass({
 				comments: this.state.comments
 			})
 		});
-		functions.getLoc(this.props.model.get('location')).then((results) => {
-			this.setState({
-				location: results.results[0].formatted_address
-			})
-		})
 	},
 
 	mixins: [History],
@@ -71,6 +66,7 @@ const TriviaQuote = React.createClass({
 		this.setState({
 			isEditing: false,
 		});
+		this.props.onChange();
 	},
 
 	render() {

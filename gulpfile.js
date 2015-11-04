@@ -3,6 +3,7 @@
  */
 var gulp              = require('gulp');
 var gutil             = require('gulp-util');
+var filepickerLibrary = require('filepicker-js');
 var path              = require('path');
 var webpack           = require('webpack');
 var HtmlPlugin        = require('html-webpack-plugin');

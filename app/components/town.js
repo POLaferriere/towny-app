@@ -7,9 +7,10 @@ const Town = React.createClass({
 
 	mixins: [History],
 
-	moveToTrivia(e) {
+	moveTo(e) {
 		e.preventDefault();
-		this.history.pushState({}, `${this.props.location.pathname}/trivia`)
+		let loc = e.target.text;
+		this.history.pushState({}, `/town/${session.getTownId()}/${loc}`)
 	},
 
 	render() {
@@ -23,9 +24,9 @@ const Town = React.createClass({
 				</div>
 				<div className="side-nav">
 					<Nav bsStyle="pills" stacked>
-				    <NavItem eventKey={1} onClick={this.moveToTrivia}>Trivia</NavItem>
-				    <NavItem eventKey={2} title="Item">NavItem 2 content</NavItem>
-				    <NavItem eventKey={3} >NavItem 3 content</NavItem>
+				    <NavItem eventKey={1} onClick={this.moveTo}>Trivia</NavItem>
+				    <NavItem eventKey={2} onClick={this.moveTo}>Pictures</NavItem>
+				    <NavItem eventKey={3} onClick={this.moveTo}>Events</NavItem>
 				  </Nav>
 				</div>
 

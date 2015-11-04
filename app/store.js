@@ -4,11 +4,13 @@ import Session from './models/session';
 import User from './models/user';
 import CommentCollection from './models/comment-collection'
 import TownCollection from './models/town-collection'
+import PictureCollection from './models/picture-collection'
 
-let trivia, session, towns;
+let session, towns;
 
 let triviaCache = {};
 let commentsCache = {};
+let picturesCache = {};
 
 
 export default {
@@ -21,7 +23,15 @@ export default {
   },
 
   getTriviaCollection(id) {
-      return (triviaCache[id] = triviaCache[id] || new TriviaCollection({townId: id}));
+    return (triviaCache[id] = triviaCache[id] || new TriviaCollection({townId: id}));
+  },
+
+  newTownTrivia(id, text) {
+    let trivia = (triviaCache[id] = triviaCache[id] || new TriviaCollection({townId: id}));
+    trivia.create({
+      body: text,
+      town: {objectId: id}
+    })
   },
 
   getTriviaModel() {
@@ -53,5 +63,10 @@ export default {
       comment_on: {objectId: id},
       comment_by: {objectId: userId},
     })
+  },
+
+  getPictureCollection(id) {
+    let pictures = (picturesCache[id] = picturesCache[id] || new PictureCollection({townId: id}));
+    return pictures;
   }
 }

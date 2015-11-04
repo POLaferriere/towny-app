@@ -10,8 +10,9 @@ const Trivia = React.createClass({
 	mixins: [History],
 
 	getDefaultProps() {
+		let townId = session.hasTown() && session.getTownId() || '';
 		return {
-			trivia: store.getTriviaCollection(),
+			trivia: store.getTriviaCollection(townId),
 		}
 	},
 
@@ -23,6 +24,7 @@ const Trivia = React.createClass({
 	},
 
 	componentWillMount() {
+		console.log(this.props.trivia);
 		this.props.trivia.fetch();
 		this.props.trivia.on('add remove sync', this.forceUpdate.bind(this, null), this);
 	},
@@ -38,9 +40,14 @@ const Trivia = React.createClass({
 		})
 	},
 
-	onSubmit() {
+//TODO make new posts go to the top
+	onSubmit(id, text) {
 		this.setState({
 			addingTrivia: false,
+		})
+		this.props.trivia.create({
+			body: text,
+			town: {objectId: id}
 		})
 	},
 
@@ -53,7 +60,7 @@ const Trivia = React.createClass({
 
 				<ul>
 					{triviaQuotes.map((quote) => {
-						return (<TriviaQuote key={quote.get('objectId')} model={quote}/>)
+						return (<TriviaQuote key={quote.id} model={quote} onChange={this.onChange}/>)
 					})}
 				</ul>
 				<Glyphicon glyph='plus-sign' className='trivia-add' onClick={this.handleAdd} />

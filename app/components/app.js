@@ -40,7 +40,7 @@ var App = React.createClass({
     this.history.pushState({}, '/user');
   },
 
-  setTown() {
+  goToHometown() {
     let townId = session.getTownId();
     this.history.pushState({}, '/town/' + townId)
   },
@@ -51,11 +51,14 @@ var App = React.createClass({
     return (
       <div>
         {session.hasTown() === false &&
-          <Splash onSetLocation={this.handleLocationSet} onSetTown={this.setTown}/>}
+          <Splash onSetLocation={this.handleLocationSet} onSetTown={this.goToHometown}/>}
         {session.hasTown() && 
           (<div>
             <Navbar inverse>
               <NavBrand><a href="/">Towny</a></NavBrand>
+              <Nav navbar>
+                <NavItem onClick={this.goToHometown}>Your hometown</NavItem>
+              </Nav>
               <Nav right>
                 <NavDropdown 
                   eventKey={3} 

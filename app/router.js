@@ -14,6 +14,8 @@ import AddTrivia from './components/add-trivia'
 import TriviaModal from './components/trivia-modal'
 import TriviaLocation from './components/trivia-location'
 import Town from './components/town'
+import Pictures from './components/pictures'
+import Events from './components/events'
 
 ReactDOM.render((
 	<Router>
@@ -23,12 +25,9 @@ ReactDOM.render((
 			<Route path='/signup' component={Signup} />
 			<Route path='/user' component={User} />
 			<Route path='/town/:id' component={Town}>
-				<Route path='trivia' component={Trivia} >
-					<Route path='modal' component={TriviaModal} />
-					<Route path='location' component={TriviaLocation} />
-					<Route path='new' component={AddTrivia} />
-					<Route path='new/:id' component={AddTrivia} />
-				</Route>
+				<Route path='trivia' component={Trivia} />
+				<Route path='events' component={Events} />
+				<Route path='pictures' component={Pictures} />
 			</Route>
 		</Route>
 	</Router>

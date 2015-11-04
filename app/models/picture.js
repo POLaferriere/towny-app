@@ -1,13 +1,8 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
 
-var Trivia = Backbone.Model.extend({
-	defaults: {
-		body: '',
-		location: {},
-	},
+const Picture = Backbone.Model.extend({
 	idAttribute: 'objectId',
-	urlRoot: 'https://api.parse.com/1/classes/Trivia?order=createdAt',
+	urlRoot: 'https://api.parse.com/1/classes/Picture',
 
 	toJSON(options) {
     if(options) {
@@ -23,8 +18,6 @@ var Trivia = Backbone.Model.extend({
       return _.clone(this.attributes);
     }
   }
-});
+})
 
-
-
-export default Trivia;
+export default Picture;

@@ -27,17 +27,6 @@ var AddTrivia = React.createClass({
 		}
 	},
 
-	componentWillMount() {
-		let session = store.getSession();
-		let location = session.get('location');
-		this.state.trivia.set('location', location);
-		functions.getLoc(location).then((results) => {
-			this.setState({
-	 			location: results.results[0].formatted_address
-	 		})
-		})
-	},
-
 	handleEdit(event) {
 		this.state.trivia.set('body', event.target.value)
 		this.setState({
@@ -47,9 +36,11 @@ var AddTrivia = React.createClass({
 
 	handleSubmit(e) {
 		e.preventDefault();
-		var _this = this;
-		this.state.trivia.save().then(() => _this.props.triviaCollection.fetch());
-		this.props.onSubmit();
+		let text = this.state.trivia.get('body');
+		let townId = session.getTownId();
+		this.props.onSubmit(townId, text);
+		// this.state.trivia.save().then(() => _this.props.triviaCollection.fetch());
+		// this.props.onSubmit();
 	},
 
 	render() {
