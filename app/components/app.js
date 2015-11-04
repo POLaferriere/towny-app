@@ -11,8 +11,9 @@ var App = React.createClass({
 
   mixins: [History],
 
-  componentDidMount() {
-    this.history.pushState({}, '/town');
+  componentWillMount() {
+    let towns = store.getTownCollection();
+    towns.fetch().then(() => {console.log(towns.toJSON())});
   },
 
   handleLocationSet() {
@@ -39,14 +40,19 @@ var App = React.createClass({
     this.history.pushState({}, '/user');
   },
 
+  setTown() {
+    let townId = session.getTownId();
+    this.history.pushState({}, '/town/' + townId)
+  },
+
   render() {
     let session = store.getSession();
 
     return (
       <div>
-        {session.hasLocation() === false &&
-          <Splash onSetLocation={this.handleLocationSet}/>}
-        {session.hasLocation() && 
+        {session.hasTown() === false &&
+          <Splash onSetLocation={this.handleLocationSet} onSetTown={this.setTown}/>}
+        {session.hasTown() && 
           (<div>
             <Navbar inverse>
               <NavBrand><a href="/">Towny</a></NavBrand>

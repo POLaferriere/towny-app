@@ -3,14 +3,25 @@ import Trivia from './models/trivia/trivia';
 import Session from './models/session';
 import User from './models/user';
 import CommentCollection from './models/comment-collection'
+import TownCollection from './models/town-collection'
 
-let trivia, session;
+let trivia, session, towns;
 
+let triviaCache = {};
 let commentsCache = {};
 
+
 export default {
-  getTriviaCollection() {
-      return (trivia = trivia || new TriviaCollection());
+  getTownCollection() {
+    return(towns = towns || new TownCollection())
+  }, 
+
+  getTown(id) {
+    return towns.get(id)
+  },
+
+  getTriviaCollection(id) {
+      return (triviaCache[id] = triviaCache[id] || new TriviaCollection({townId: id}));
   },
 
   getTriviaModel() {

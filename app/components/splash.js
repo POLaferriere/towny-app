@@ -8,6 +8,7 @@ import {Button, ButtonGroup} from 'react-bootstrap';
 const Splash = React.createClass({
 	propTypes: {
 		onSetLocation: React.PropTypes.func,
+		onSetTown: React.PropTypes.func,
 	},
 
 	getInitialState() {
@@ -33,7 +34,10 @@ const Splash = React.createClass({
 
 	handleUseUserLoc() {
 		let session = store.getSession();
-		let loc = session.currentUser.get('hometown');
+		let loc = session.get('currentUser').get('hometown');
+		let towns = store.getTownCollection();
+		session.setTown(towns.get(loc.objectId));
+		this.props.onSetTown();
 	},
 
 	handleSuggestSelect(suggest) {

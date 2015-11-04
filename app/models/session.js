@@ -54,14 +54,22 @@ const Session = Backbone.Model.extend({
       return !!this.get('currentUser');
     },
 
-    hasLocation() {
-      return !!this.get('location');
+    hasTown() {
+      return !!this.get('town');
     },
 
     setLocation() {
       if(arguments.length == 0) {
         return functions.getGeo().then((location) => {this.set('location', functions.latLng(location));})
       } else {this.set('location', arguments[0])}
+    },
+
+    setTown(town) {
+      this.set('town', town);
+    },
+
+    getTownId() {
+      return this.get('town').get('objectId');
     },
 
     hasUser() {

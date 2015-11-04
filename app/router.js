@@ -22,7 +22,7 @@ ReactDOM.render((
 			<Route path='/logout' component={Logout} />
 			<Route path='/signup' component={Signup} />
 			<Route path='/user' component={User} />
-			<Route path='/town' component={Town}>
+			<Route path='/town/:id' component={Town}>
 				<Route path='trivia' component={Trivia} >
 					<Route path='modal' component={TriviaModal} />
 					<Route path='location' component={TriviaLocation} />

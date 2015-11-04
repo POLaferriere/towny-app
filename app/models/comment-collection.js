@@ -1,4 +1,4 @@
-import Backbone from 'backbone';
+import Backbone from 'backbone';	
 import Comment from './comment';
 
 const CommentCollection = Backbone.Collection.extend({

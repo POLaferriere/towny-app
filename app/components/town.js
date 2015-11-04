@@ -1,20 +1,25 @@
 import React from 'react';
 import {Nav, NavItem} from 'react-bootstrap';
 import {History} from 'react-router';
+import store from '../store';
 
 const Town = React.createClass({
+
 	mixins: [History],
 
 	moveToTrivia(e) {
 		e.preventDefault();
-		this.history.pushState({}, `${this.props.route.path}/trivia`)
+		this.history.pushState({}, `${this.props.location.pathname}/trivia`)
 	},
 
 	render() {
+		let town = store.getTown(this.props.params.id).toJSON();
+		
+
 		return (
 			<div className='town-container'>
 				<div className="town-header">
-					<h1 className="town-header-name">Town Name</h1>
+					<h1 className="town-header-name">{town.name}</h1>
 				</div>
 				<div className="side-nav">
 					<Nav bsStyle="pills" stacked>
