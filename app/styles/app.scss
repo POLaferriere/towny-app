@@ -270,13 +270,37 @@ body {
 }
 .picture-container {
 	@include span-columns(3 of 9);
-	&:nth-of-type(3) {
-		@include omega();
-	}
+	padding: 10px;
+	margin: 0 0 10px 0;
+	background: white;
+	cursor: pointer;
 	img {
 		width: 95%;
+		margin-left: 2.5%;
+	}
+	&:hover .picture-container-stats {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
 	}
 }
+
+.picture-container-stats {
+	padding: 2.5% 5%;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+	.like-icon {
+		float: left;
+		.likes {
+			position: relative;
+			top: -2px;
+			margin-left: 5px;
+		}
+	}
+	.comment-icon {
+		float: right;
+	}
+}
+
 .pictures-add {
 	position: fixed;
 	top: 85%;
@@ -303,6 +327,53 @@ body {
 	margin: 0 auto;
 }
 
+//------------------Carousel Modal----------------//
+.carousel-modal {
+	margin-top: 10%;
+}
+
+.carousel-control.right,
+.carousel-control.left {
+	background-image: none;
+	&:hover .glyphicon-chevron-right,
+	&:hover .glyphicon-chevron-left, {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
+	}
+}
+
+.glyphicon-chevron-right,
+.glyphicon-chevron-left {
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.carousel-modal-caption {
+	font-size: 2rem;
+	padding: 2.5% 15% 0 ;
+}
+
+.carousel-modal-stats {
+	padding: 2.5% 15%;
+	font-size: 2.4rem;
+	.like-icon {
+		float: left;
+		cursor: pointer;
+		transition: color 0.3s ease-in-out;
+		&:hover {
+			color: $highlight;
+			transition: color 0.3s ease-in-out;
+		}
+		.likes {
+			position: relative;
+			top: -3px;
+			margin-left: 5px;
+		}
+	}
+	.comment-icon {
+		float: right;
+	}
+}
 
 //------------------Footer------------------//
 .footer {

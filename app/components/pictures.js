@@ -2,14 +2,20 @@ import React from 'react';
 import filepicker from 'filepicker-js';
 import store from '../store';
 import {Glyphicon, Modal, Button} from 'react-bootstrap';
+import masonry from 'react-masonry-component';
+import CarouselModal from './carousel-modal';
+
+let Masonry = masonry(React);
 
 
 const Pictures = React.createClass({
 	getInitialState() {
 		return {
 			showModal: false,
+			showCarousel: false,
 			loadingImage: '',
 			modalInput: '',
+			clickedImage: null,
 		}
 	},
 
@@ -36,6 +42,12 @@ const Pictures = React.createClass({
 
 	close() {},
 
+	closeCarousel() {
+		this.setState({
+			showCarousel: false,
+		})
+	},
+
 	handleInput(e) {
 		this.setState({
 			modalInput: e.target.value
@@ -61,6 +73,14 @@ const Pictures = React.createClass({
 		})
 	},
 
+	startCarousel(i) {
+		
+		this.setState({
+			clickedImage: i,
+			showCarousel: true,
+		})
+	},
+
 	render() {
 		let pictures = store.getPictureCollection(session.getTownId());
 		let options = {
@@ -68,15 +88,27 @@ const Pictures = React.createClass({
 		}
 
 		return (
-			<div className='pictures-container'>	
-				{pictures.map((picture) => {
-					return (
-						<div className='picture-container'>
-							<img src={picture.get('url')} key={picture.get('objectId')}/>
-							<h1>{picture.get('caption')}</h1>
-						</div>
-					)
-				})}
+			<div className='pictures-container'>
+				<Masonry 
+					options={{
+						gutter: 10
+					}}>
+					{pictures.map((picture, i) => {
+						return (
+							<div className='picture-container' onClick={this.startCarousel.bind(this, i)} >
+								<img src={picture.get('url')} key={picture.get('objectId')}/>
+								<div className="picture-container-stats">
+									<Glyphicon 
+										glyph='thumbs-up' 
+										className='like-icon'>
+										<span className='likes'>{picture.get('likes')}</span>
+									</Glyphicon>
+									<Glyphicon glyph='comment' className='comment-icon'/>
+								</div>
+							</div>
+						)
+					})}
+				</Masonry>
 				
 				<Glyphicon glyph='plus-sign' className='pictures-add' onClick={this.handleAdd} />
 
@@ -98,6 +130,12 @@ const Pictures = React.createClass({
 								Submit
 							</Button>
 						</form>
+					</Modal.Body>
+				</Modal>
+
+				<Modal show={this.state.showCarousel} onHide={this.closeCarousel} className='carousel-modal'>
+					<Modal.Body>
+						<CarouselModal startingIndex={this.state.clickedImage}/>
 					</Modal.Body>
 				</Modal>
 
