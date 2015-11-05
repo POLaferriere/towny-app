@@ -298,6 +298,11 @@ body {
 	}
 	.comment-icon {
 		float: right;
+		.comments {
+			position: relative;
+			top: -2px;
+			margin-left: 5px;
+		}
 	}
 }
 
@@ -372,7 +377,27 @@ body {
 	}
 	.comment-icon {
 		float: right;
+		cursor: pointer;
+		transition: color 0.3s ease-in-out;
+		&:hover {
+			color: $highlight;
+			transition: color 0.3s ease-in-out;
+		}
+		.comments {
+			position: relative;
+			top: -3px;
+			margin-left: 5px;
+		}
 	}
+}
+
+.panel {
+	border: none;	
+}
+
+.add-picture-input {
+	width: 75%;
+	margin-left: 12.5%;
 }
 
 //------------------Footer------------------//

@@ -5,7 +5,7 @@ import functions from 'functions';
 import moment from 'moment';
 import CommentForm from './comment-form';
 import store from '../store';
-import Comments from './comments';
+import TriviaComments from './trivia-comments';
 import {Glyphicon} from 'react-bootstrap';
 import AddTrivia from './add-trivia';
 
@@ -85,7 +85,7 @@ const TriviaQuote = React.createClass({
 					<Glyphicon glyph='comment' className='trivia-quote-sub-header-comments' onClick={this.seeComments}><span className='comment-length'>{commentLength}</span>Comments</Glyphicon>
 					<p className='trivia-quote-date'>{moment(created, moment.ISO_8601).fromNow()}</p>
 				</div>
-				{this.state.seeComments && <Comments comments={comments} triviaId={triviaId} onChange={this.onChange}/>}
+				{this.state.seeComments && <TriviaComments comments={comments} triviaId={triviaId} onChange={this.onChange}/>}
 
 				<Glyphicon glyph='remove' className='trivia-quote-remove' onClick={this.handleDelete} />
 				<Glyphicon glyph='pencil' className='trivia-quote-edit' onClick={this.handleEdit} />

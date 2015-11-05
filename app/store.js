@@ -68,5 +68,10 @@ export default {
   getPictureCollection(id) {
     let pictures = (picturesCache[id] = picturesCache[id] || new PictureCollection({townId: id}));
     return pictures;
+  },
+
+  getPictureComments(id) {
+    let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {pictureId: id}));
+    return comments;
   }
 }

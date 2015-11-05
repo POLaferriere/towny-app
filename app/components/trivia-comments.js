@@ -1,8 +1,8 @@
 import React from 'react';
-import Comment from './comment';
+import TriviaComment from './trivia-comment';
 import CommentForm from './comment-form';
 
-const Comments = React.createClass({
+const TriviaComments = React.createClass({
 	propTypes: {
 		comments: React.PropTypes.object.isRequired,
 		triviaId: React.PropTypes.string.isRequired,
@@ -42,7 +42,7 @@ const Comments = React.createClass({
 					<p>There's nothing here. <span className='trivia-quote-comments-first' onClick={this.setCommenting}>Be the first to say something</span></p>}
 				{this.props.comments.map((comment) => {
 					return (
-					<Comment 
+					<TriviaComment 
 						text={comment.get('text')} 
 						triviaId={triviaId} 
 						onReply={this.setCommenting} 
@@ -56,4 +56,4 @@ const Comments = React.createClass({
 	}
 })
 
-export default Comments;
+export default TriviaComments;

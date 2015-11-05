@@ -2,7 +2,7 @@ import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
 import store from '../store';
 
-const Comment = React.createClass({
+const TriviaComment = React.createClass({
 	propTypes: {
 		text: React.PropTypes.string.isRequired,
 		triviaId: React.PropTypes.string.isRequired,
@@ -33,4 +33,4 @@ const Comment = React.createClass({
 	}
 });
 
-export default Comment;
+export default TriviaComment;

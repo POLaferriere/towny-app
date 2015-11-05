@@ -4,6 +4,8 @@ import store from '../store';
 import {Glyphicon, Modal, Button} from 'react-bootstrap';
 import masonry from 'react-masonry-component';
 import CarouselModal from './carousel-modal';
+import Picture from './picture';
+
 
 let Masonry = masonry(React);
 
@@ -15,7 +17,7 @@ const Pictures = React.createClass({
 			showCarousel: false,
 			loadingImage: '',
 			modalInput: '',
-			clickedImage: null,
+			clickedImage: 0,
 		}
 	},
 
@@ -95,17 +97,7 @@ const Pictures = React.createClass({
 					}}>
 					{pictures.map((picture, i) => {
 						return (
-							<div className='picture-container' onClick={this.startCarousel.bind(this, i)} >
-								<img src={picture.get('url')} key={picture.get('objectId')}/>
-								<div className="picture-container-stats">
-									<Glyphicon 
-										glyph='thumbs-up' 
-										className='like-icon'>
-										<span className='likes'>{picture.get('likes')}</span>
-									</Glyphicon>
-									<Glyphicon glyph='comment' className='comment-icon'/>
-								</div>
-							</div>
+							<Picture key={picture.get('objectId')} picture={picture} startCarousel={this.startCarousel} i={i}/>
 						)
 					})}
 				</Masonry>

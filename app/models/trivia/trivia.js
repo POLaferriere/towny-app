@@ -7,7 +7,7 @@ var Trivia = Backbone.Model.extend({
 		location: {},
 	},
 	idAttribute: 'objectId',
-	urlRoot: 'https://api.parse.com/1/classes/Trivia?order=createdAt',
+	urlRoot: 'https://api.parse.com/1/classes/Trivia',
 
 	toJSON(options) {
     if(options) {
