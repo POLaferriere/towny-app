@@ -2,6 +2,7 @@
 @import 'neat';
 // @import 'foundation';
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css';
+@import '../../node_modules/react-widgets/dist/css/react-widgets.css';
 @import url(https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,700);
 
 $dark-grey: #333;
@@ -11,7 +12,9 @@ $splash-background: #222;
 $splash-text: white;
 $suggest-background: white;
 $suggest-text: black;
+$light-highlight: #BAF41C;
 $highlight: #7FD605;
+$dark-highlight: #6D930B;
 $highlight2: #398CB7;
 
 body {
@@ -396,10 +399,63 @@ body {
 }
 
 .add-picture-input {
-	width: 75%;
-	margin-left: 12.5%;
+	width: 100%;
 }
 
+//-------------------Events------------------//
+.events-container {
+	@include span-columns(9);
+}
+
+.date-picker {
+	width: 50%;
+	margin: 0 auto;
+}
+
+.events-add {
+	position: fixed;
+	top: 85%;
+	right: 25%;
+	font-size: 6rem;
+	color: $highlight;
+	cursor: pointer;
+}
+
+//-------------Create Event Form-------------//
+.create-event-form {
+	&:last-child {
+		margin-bottom: 0;
+	}
+	> * {
+		display: block;
+		margin-bottom: 10px;
+	}
+}
+
+.event-input-title,
+.event-input-description,
+.event-input-url {
+	width: 100%;
+	font-size: 2rem;	
+}
+
+.event-input-description {
+	font-size: 1.6rem;
+	border-color: #ccc;
+	resize: none;
+}
+
+.event-input-submit {
+	width: 90%;
+	margin-left: 5%;
+	color: white;
+	background: $highlight;
+	font-size: 2.2rem;
+	&:hover {
+		background: $dark-highlight;
+		color: white;
+	}
+}
 //------------------Footer------------------//
 .footer {
 	height: 150px;

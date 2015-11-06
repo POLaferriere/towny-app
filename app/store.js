@@ -5,12 +5,15 @@ import User from './models/user';
 import CommentCollection from './models/comment-collection'
 import TownCollection from './models/town-collection'
 import PictureCollection from './models/picture-collection'
+import Event from './models/event';
+import EventCollection from './models/event-collection';
 
 let session, towns;
 
 let triviaCache = {};
 let commentsCache = {};
 let picturesCache = {};
+let eventsCache = {};
 
 
 export default {
@@ -61,7 +64,6 @@ export default {
     comments.create({
       text: comment,
       comment_on: {objectId: id},
-      comment_by: {objectId: userId},
     })
   },
 
@@ -73,5 +75,29 @@ export default {
   getPictureComments(id) {
     let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {pictureId: id}));
     return comments;
+  },
+
+  commentOnPicture(id, comment) {
+    let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {pictureId: id}));
+    comments.create({
+      text: comment,
+      comment_on: {objectId: id},
+    })
+  },
+
+  newEvent(id, event) {
+    let events = (eventsCache[id] = eventsCache[id] || new EventCollection({townId: id}))
+    events.create({
+      title: event.title,
+      description: event.description,
+      url: event.url,
+      date: {"__type": "Date", "iso": event.date},
+      town: {objectId: id}
+    })
+  },
+  
+  getEventsCollection(id) {
+    let events = (eventsCache[id] = eventsCache[id] || new EventCollection({townId: id}))
+    return events;
   }
 }

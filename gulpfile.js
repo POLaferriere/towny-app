@@ -24,7 +24,8 @@ var scssIncludeParams = decodeURIComponent(param(scssIncludePaths));
 
 var cssIncludePaths = {
   includePaths: [
-    './node_modules/bootstrap/dist/css/'
+    './node_modules/bootstrap/dist/css/',
+    './node_modules/react-widgets/dist/css',
   ]
 };
 
@@ -73,24 +74,15 @@ var webpackConfig = {
         include: path.resolve(__dirname, 'app', 'styles')
       },
       {
-        test: /.woff$/, 
-        loader: "url-loader?limit=10000&mimetype=application/font-woff" 
-      },
-      {
-        test: /.woff2$/, 
+        test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/, 
         loader: "url-loader?limit=10000&mimetype=application/font-woff" 
       },
       { 
-        test: /.ttf$/,
-        loader: "url-loader?limit=10000&mimetype=application/octet-stream" 
+        test: /\.(ttf|eot|svg)(\?v=[0-9].[0-9].[0-9])?$/,
+        loader: "file-loader?name=[name].[ext]"
       },
       { 
-        test: /.eot$/,
-        loader: "file-loader" 
-      },
-      {
-        test: /.svg$/,
-        loader: "url-loader?limit=10000&mimetype=image/svg+xml" 
+        test: /\.gif$/, loader: "url-loader?mimetype=image/png" 
       },
     ]
   }

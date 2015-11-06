@@ -1,11 +1,12 @@
 import React from 'react';
 import {Carousel, CarouselItem, Glyphicon, Panel} from 'react-bootstrap';
 import store from '../store';
-import AddPictureComment from './add-picture-comment'
 
 const CarouselModal = React.createClass({
 	propTypes: {
 		startingIndex: React.PropTypes.number.isRequired,
+		showComments: React.PropTypes.func,
+		onSlide: React.PropTypes.func,
 	},
 
 	getInitialState() {
@@ -13,7 +14,6 @@ const CarouselModal = React.createClass({
 			index: this.props.startingIndex,
 			direction: null,
 			showComments: false,
-			commenting: false,
 		}
 	},
 
@@ -22,6 +22,7 @@ const CarouselModal = React.createClass({
 			index: index,
 			direction: dir,
 		})
+		this.props.onSlide();
 	},	
 
 	like(picture) {
@@ -29,10 +30,8 @@ const CarouselModal = React.createClass({
 		picture.save().then(() => {this.forceUpdate()});
 	},
 
-	showComments() {
-		this.setState({
-			showComments: !this.state.showComments,
-		})
+	showComments(comments) {
+		this.props.showComments(comments);
 	},
 
 	render() {
@@ -62,17 +61,9 @@ const CarouselModal = React.createClass({
 								<Glyphicon 
 									glyph='comment' 
 									className='comment-icon'
-									onClick={this.showComments}>
+									onClick={this.showComments.bind(this, comments)}>
 									<span className='comments'>{comments.length}</span></Glyphicon>
 							</div>
-							<Panel collapsible expanded={this.state.showComments} className="carousel-modal-comments">
-								{comments.length == 0 && 
-									<AddPictureComment/>}
-								{comments.length !=0 &&comments.map((comment) => {
-									return <p>{comment.get('text')}</p>
-								})}
-								{this.state.commenting && <AddPictureComment/>}
-							</Panel>
 						</CarouselItem>)
 				})}
 		  </Carousel>

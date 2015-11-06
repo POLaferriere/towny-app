@@ -1,27 +1,25 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 
-const Comment = Backbone.Model.extend({
+const Event = Backbone.Model.extend({
 	idAttribute: 'objectId',
-	defaults: {
-		comment_on: {},
-	},
-	urlRoot: 'https://api.parse.com/1/classes/Comment',
+	urlRoot: 'https://api.parse.com/1/classes/Event',
 
 	toJSON(options) {
     if(options) {
 
       return _.extend({}, this.attributes, {
-        comment_on: {
+        town: {
           "__type": "Pointer",
-          "className": "Trivia",
-          "objectId": this.get('comment_on').objectId
+          "className": "Town",
+          "objectId": this.get('town').objectId
         },
+        
       });
     } else {
       return _.clone(this.attributes);
     }
-  },
-});
+  }
+})
 
-export default Comment;
+export default Event;

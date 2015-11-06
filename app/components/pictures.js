@@ -5,7 +5,7 @@ import {Glyphicon, Modal, Button} from 'react-bootstrap';
 import masonry from 'react-masonry-component';
 import CarouselModal from './carousel-modal';
 import Picture from './picture';
-
+import AddPictureComment from './add-picture-comment'
 
 let Masonry = masonry(React);
 
@@ -18,6 +18,7 @@ const Pictures = React.createClass({
 			loadingImage: '',
 			modalInput: '',
 			clickedImage: 0,
+			showComments: false,
 		}
 	},
 
@@ -83,6 +84,25 @@ const Pictures = React.createClass({
 		})
 	},
 
+	showComments(comments) {
+		console.log(comments);
+		this.setState({
+			showComments: !this.state.showComments,
+			comments: comments
+		})
+	},
+
+	onCommentSubmit(comment) {
+		store.commentOnPicture(this.state.comments.pictureId, comment);
+		this.setState({
+			showComments: !this.state.showComments,
+		})
+	},
+
+	closeComments() {
+		this.showComments ? this.setState({showComments: false}) : null
+	},
+
 	render() {
 		let pictures = store.getPictureCollection(session.getTownId());
 		let options = {
@@ -127,8 +147,18 @@ const Pictures = React.createClass({
 
 				<Modal show={this.state.showCarousel} onHide={this.closeCarousel} className='carousel-modal'>
 					<Modal.Body>
-						<CarouselModal startingIndex={this.state.clickedImage}/>
+						<CarouselModal startingIndex={this.state.clickedImage} showComments={this.showComments} onSlide={this.closeComments}/>
 					</Modal.Body>
+					<Modal.Footer>
+						{this.state.showComments && <div className="carousel-modal-comments">
+								{this.state.comments.length == 0 && 
+									<AddPictureComment onSubmit={this.onCommentSubmit}/>}
+								{this.state.comments.length !=0 && this.state.comments.map((comment) => {
+									return <p>{comment.get('text')}</p>
+								})}
+								{this.state.commenting && <AddPictureComment/>}
+							</div>}
+					</Modal.Footer>
 				</Modal>
 
 			</div>
