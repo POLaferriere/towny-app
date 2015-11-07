@@ -9,28 +9,16 @@ import AddTrivia from './add-trivia'
 const Trivia = React.createClass({
 	mixins: [History],
 
-	getDefaultProps() {
-		let townId = session.hasTown() && session.getTownId() || '';
-		return {
-			trivia: store.getTriviaCollection(townId),
-		}
-	},
-
 	getInitialState() {
 		return {
 			triviaQuotes: [],
 			addingTrivia: false,
+			trivia: store.getTriviaCollection(session.getTownId())
 		}
 	},
 
 	componentWillMount() {
-		console.log(this.props.trivia);
-		this.props.trivia.fetch();
-		this.props.trivia.on('add remove sync', this.forceUpdate.bind(this, null), this);
-	},
-
-	componentWillUnmount() {
-		this.props.trivia.off('add remove sync', null, this);
+		this.state.trivia.fetch().then(() => {this.forceUpdate()});
 	},
 
 	handleAdd(e) {
@@ -41,18 +29,16 @@ const Trivia = React.createClass({
 	},
 
 //TODO make new posts go to the top
-	onSubmit(id, text) {
-		this.setState({
-			addingTrivia: false,
-		})
-		this.props.trivia.create({
-			body: text,
-			town: {objectId: id}
+	onSubmit() {
+		this.state.trivia.fetch().then(() =>{
+			this.setState({
+				addingTrivia: false,
+			})
 		})
 	},
 
 	render() {
-		let triviaQuotes = this.props.trivia || {};
+		let triviaQuotes = this.state.trivia || {};
 
 		return (
 			<div className='trivia-container'>

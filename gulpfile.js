@@ -82,7 +82,17 @@ var webpackConfig = {
         loader: "file-loader?name=[name].[ext]"
       },
       { 
-        test: /\.gif$/, loader: "url-loader?mimetype=image/png" 
+        test: /\.gif$/,
+        loader: "url-loader?mimetype=image/png" 
+      },
+      {
+        test: /\.png$/,
+        loader: "url-loader?mimetype=image/png" 
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'url?name=images/[name].[ext]&limit=8192',
+        include: path.resolve(__dirname, 'public', 'assets', 'images')
       },
     ]
   }

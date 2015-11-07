@@ -10,12 +10,11 @@ import Logout from './components/logout';
 import Signup from './components/signup';
 import User from './components/user';
 import Trivia from './components/trivia';
-import AddTrivia from './components/add-trivia'
-import TriviaModal from './components/trivia-modal'
-import TriviaLocation from './components/trivia-location'
 import Town from './components/town'
 import Pictures from './components/pictures'
 import Events from './components/events'
+import NoTown from './components/no-town';
+import CreateTown from './components/create-town';
 
 ReactDOM.render((
 	<Router>
@@ -24,6 +23,8 @@ ReactDOM.render((
 			<Route path='/logout' component={Logout} />
 			<Route path='/signup' component={Signup} />
 			<Route path='/user' component={User} />
+			<Route path='/noTown/:id' component={NoTown} />
+			<Route path='/create' component={CreateTown} />
 			<Route path='/town/:id' component={Town}>
 				<Route path='trivia' component={Trivia} />
 				<Route path='events' component={Events} />

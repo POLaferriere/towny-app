@@ -10,6 +10,7 @@ momentLocalizer(Moment);
 const CreateEventForm = React.createClass({
 	propTypes: {
 		onSubmit: React.PropTypes.func,
+		date: React.PropTypes.object,
 	},
 
 	getInitialState() {
@@ -17,7 +18,7 @@ const CreateEventForm = React.createClass({
 				title: '',
 				description: '',
 				url: '',
-				date: new Date(),
+				date: this.props.date || new Date(),
 			}
 	},
 

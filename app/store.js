@@ -25,8 +25,21 @@ export default {
     return towns.get(id)
   },
 
+  newTown(name, location) {
+    towns.create({
+      name: name,
+      location: {
+        __type: 'GeoPoint',
+        latitude: location.lat,
+        longitude: location.lng,
+      }
+    })
+  },
+
   getTriviaCollection(id) {
-    return (triviaCache[id] = triviaCache[id] || new TriviaCollection({townId: id}));
+    let trivia = (triviaCache[id] = triviaCache[id] || new TriviaCollection({townId: id}));
+    triviaCache[id] = trivia;
+    return trivia;
   },
 
   newTownTrivia(id, text) {
@@ -55,6 +68,7 @@ export default {
 
   getTriviaComments(id) {
     let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {triviaId: id}));
+    commentsCache[id] = comments;
     return comments;    
   },
 

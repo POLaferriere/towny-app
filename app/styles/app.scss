@@ -87,7 +87,17 @@ body {
 }
 
 //--------------App Header----------------//
+.nav-search{
+	position: relative;
+	color: black;
+}
 
+.nav-search-results {
+	list-style: none;
+	position: absolute;
+	background: white;
+	padding: 5px 10px;
+}
 
 
 //---------------Add Trivia Modal--------------//
@@ -455,6 +465,12 @@ body {
 		background: $dark-highlight;
 		color: white;
 	}
+}
+
+//------------------No Town------------------//
+.no-town-container{
+	@include outer-container();
+	text-align: center;	
 }
 //------------------Footer------------------//
 .footer {

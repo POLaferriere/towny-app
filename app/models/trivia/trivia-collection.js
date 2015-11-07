@@ -10,9 +10,7 @@ var TriviaCollection = Backbone.Collection.extend({
 					className: 'Town',
 					objectId: this.townId,
 				}
-		})} else {
-				return 'https://api.parse.com/1/classes/Trivia?order=-createdAt'
-			}
+		})}
 
 	},
 	model: Trivia,

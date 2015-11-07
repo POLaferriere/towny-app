@@ -32,9 +32,14 @@ const Events = React.createClass ({
 	},
 	
 	handleSelect(date) {
+		let events = store.getEventsCollection(session.getTownId());
+		let selected = events.filter((event) => {
+			return Moment(event.get('date').iso).format('dddd, MMMM do YYYY') === Moment(date).format('dddd, MMMM do YYYY')
+		})
 		this.setState({
 			datePicked: true,
 			date: date, 
+			events: selected,
 		})
 	},
 
@@ -47,13 +52,20 @@ const Events = React.createClass ({
 
 
 	close() {
+		let events = store.getEventsCollection(session.getTownId());
+		let selected = events.filter((event) => {
+			return Moment(event.get('date').iso).format('dddd, MMMM do YYYY') === Moment(this.state.date).format('dddd, MMMM do YYYY')
+		})
 		this.setState({
 			modal: false,
+			events: selected,
 		})
 	},
 
 	render() {
 		let events = this.state.events ;
+
+		console.log(this.state);
 
 		return (
 			<div className="events-container">
@@ -73,7 +85,10 @@ const Events = React.createClass ({
 
 				{this.state.datePicked &&
 					<div className="event-container">
-						<h1>{Moment(this.state.date).format('dddd, MMMM do YYYY')}</h1>
+						<h1>{Moment(this.state.date).format('dddd, MMMM Do YYYY')}</h1>
+						{_.map(this.state.events, (event) => {
+							return <h1>{event.get('title')}</h1>
+						})}
 					</div>}
 
 				{this.state.modal && 
@@ -82,7 +97,7 @@ const Events = React.createClass ({
 							<h1>Create an event</h1>
 						</Modal.Header>
 						<Modal.Body>
-							<CreateEventForm onSubmit={this.close}/>
+							<CreateEventForm date={this.state.date} onSubmit={this.close}/>
 						</Modal.Body>
 					</Modal>}
 

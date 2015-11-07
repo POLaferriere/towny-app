@@ -3,17 +3,29 @@ import { IndexLink, Link, History } from 'react-router';
 import store from '../store';
 import Splash from './splash';
 import {Navbar, NavBrand, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap'
+import {Typeahead} from 'react-typeahead';
 
 var App = React.createClass({
   propTypes: {
     children: React.PropTypes.node
   },
 
+  getInitialState() {
+    return {
+      townsLoaded: false,
+      splashUp: true,
+    }
+  },
+
   mixins: [History],
 
   componentWillMount() {
     let towns = store.getTownCollection();
-    towns.fetch().then(() => {console.log(towns.toJSON())});
+    towns.fetch().then(() => {
+      this.setState({
+        townsLoaded: true,
+      })
+    });
   },
 
   handleLocationSet() {
@@ -40,26 +52,67 @@ var App = React.createClass({
     this.history.pushState({}, '/user');
   },
 
+  handleSearch(town) {
+    let towns = store.getTownCollection();
+    let townId = towns.findWhere({name: town}).get('objectId');
+    session.setTown(store.getTown(townId));
+    this.history.pushState({}, '/town/' + townId);
+  },
+
   goToHometown() {
     let townId = session.getTownId();
     this.history.pushState({}, '/town/' + townId)
+    this.setState({
+      splashUp: false,
+    })
+  },
+
+  goToNoTown(name) {
+    this.history.pushState({}, '/noTown/' + encodeURI(name));
+    this.setState({
+      splashUp: false,
+    })
+  },
+
+  goToCreate() {
+    this.history.pushState({}, '/create')
   },
 
   render() {
     let session = store.getSession();
+    let towns = store.getTownCollection();
+    let townNames = towns.pluck('name');
 
     return (
       <div>
-        {session.hasTown() === false &&
-          <Splash onSetLocation={this.handleLocationSet} onSetTown={this.goToHometown}/>}
-        {session.hasTown() && 
+        {this.state.splashUp &&
+          <Splash 
+            townsLoaded={this.state.townsLoaded} 
+            onSetLocation={this.handleLocationSet} 
+            onSetTown={this.goToHometown}
+            onNoTown={this.goToNoTown} />}
+        {!this.state.splashUp && 
           (<div>
             <Navbar inverse>
               <NavBrand><a href="/">Towny</a></NavBrand>
               <Nav navbar>
                 <NavItem onClick={this.goToHometown}>Your hometown</NavItem>
+                <NavItem>
+                  <Typeahead 
+                    className='typeahead-component'
+                    options={townNames}
+                    placeholder='Find your town'
+                    maxVisible={4}
+                    onOptionSelected={this.handleSearch}
+                    customClasses={{
+                      input: 'nav-search',
+                      results: 'nav-search-results'
+                    }}
+                    />
+                  </NavItem>
               </Nav>
               <Nav right>
+                <NavItem onClick={this.goToCreate}>Create a town</NavItem>
                 <NavDropdown 
                   eventKey={3} 
                   title={session.hasUser() && store.getCurrentUser().get('username') || 'Guest'} 

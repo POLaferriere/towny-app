@@ -4,7 +4,7 @@ import Event from './event';
 const EventCollection = Backbone.Collection.extend({
 	url() {
 		if(this.townId) {
-			return 'https://api.parse.com/1/classes/Event?include=town&where' + JSON.stringify({
+			return 'https://api.parse.com/1/classes/Event?include=town&where=' + JSON.stringify({
 		 		town: {
 			 		__type: 'Pointer',
 			 		className: 'Town',

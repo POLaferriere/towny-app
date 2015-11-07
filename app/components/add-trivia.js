@@ -12,19 +12,27 @@ var AddTrivia = React.createClass({
 
 	mixins: [History],
 
-	getDefaultProps() {
+
+	getInitialState() {
 		return {
-			triviaCollection: store.getTriviaCollection(),
+			trivia: {}
 		}
 	},
 
-	getInitialState() {
-		if(this.props.triviaId) {
-			console.log(this.props.triviaCollection.get(this.props.triviaId))
-			return {trivia: this.props.triviaCollection.get(this.props.triviaId)}
+	componentWillMount(){
+		let trivia = store.getTriviaCollection(session.getTownId());
+		console.log(trivia);
+
+		if (this.props.triviaId) {
+			this.setState({
+				trivia: trivia.get(this.props.triviaId)
+			})
 		} else {
-			return {trivia: store.getTriviaModel()}
+			this.setState({
+				trivia: store.getTriviaModel(),
+			})
 		}
+		
 	},
 
 	handleEdit(event) {
@@ -38,12 +46,16 @@ var AddTrivia = React.createClass({
 		e.preventDefault();
 		let text = this.state.trivia.get('body');
 		let townId = session.getTownId();
-		this.props.onSubmit(townId, text);
-		// this.state.trivia.save().then(() => _this.props.triviaCollection.fetch());
-		// this.props.onSubmit();
+		this.state.trivia.save({
+			body: text,
+			town: {objectId: townId}
+		})
+		this.props.onSubmit();
+
 	},
 
 	render() {
+		console.log(this.state)
 		let session = store.getSession();
 		let location = this.state.location;
 		let body = this.state.trivia.get('body');
