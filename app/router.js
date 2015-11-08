@@ -13,6 +13,7 @@ import Trivia from './components/trivia';
 import Town from './components/town'
 import Pictures from './components/pictures'
 import Events from './components/events'
+import EventPage from './components/event-page'
 import NoTown from './components/no-town';
 import CreateTown from './components/create-town';
 
@@ -28,6 +29,7 @@ ReactDOM.render((
 			<Route path='/town/:id' component={Town}>
 				<Route path='trivia' component={Trivia} />
 				<Route path='events' component={Events} />
+				<Route path='events/:eventId' component={EventPage}/>
 				<Route path='pictures' component={Pictures} />
 			</Route>
 		</Route>

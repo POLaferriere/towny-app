@@ -6,6 +6,7 @@
 @import url(https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,700);
 
 $dark-grey: #333;
+$grey: #aaa;
 $very-light-grey: #eee;
 
 $splash-background: #222;
@@ -16,6 +17,7 @@ $light-highlight: #BAF41C;
 $highlight: #7FD605;
 $dark-highlight: #6D930B;
 $highlight2: #398CB7;
+$light-highlight2: #69BBF0;
 
 body {
 	background: $very-light-grey;
@@ -197,7 +199,7 @@ body {
 		font-size: 2rem;
 		&:hover {
 			background-color: $highlight2;
-			color: white;
+			color: $light-highlight2;
 		}
 	}
 }
@@ -476,6 +478,54 @@ body {
 	cursor: pointer;
 }
 
+//--------------Event Container------------//
+.event-container {
+	background: white;
+	margin: 10px 0;
+	padding: 5px;
+	&:hover {
+		box-shadow: 0 0 1rem $highlight2;
+	}
+}
+
+.event-container-title {
+	margin: 10px 0;
+}
+
+//-------------Event Page--------------//
+.event-page {
+	@include span-columns(9);
+	background: white;
+	padding: 0 20px;
+}
+
+.event-page-date {
+	margin-left: 15px;
+	color: $grey;
+}
+
+.event-page-description {
+	@include span-columns(7 of 9);
+}
+
+.event-page-url {
+	@include span-columns(9 of 9);
+	display: block;
+}
+
+.event-page-back {
+	@include span-columns(9 of 9);
+	color: $highlight2;
+	cursor: pointer;
+	&:hover {
+		color: $light-highlight2;
+	}
+}
+
+.event-page-backarrow {
+	margin-right: 5px;
+}
+
 //-------------Create Event Form-------------//
 .create-event-form {
 	&:last-child {
@@ -511,6 +561,8 @@ body {
 		color: white;
 	}
 }
+
+
 
 //------------------No Town------------------//
 .no-town-container{

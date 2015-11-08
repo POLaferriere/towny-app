@@ -111,7 +111,12 @@ export default {
   },
   
   getEventsCollection(id) {
-    let events = (eventsCache[id] = eventsCache[id] || new EventCollection({townId: id}))
+    let events = (eventsCache[id] = eventsCache[id] || new EventCollection({townId: id}));
+    eventsCache[id] = events;
     return events;
+  },
+
+  getEvent(townId, eventId) {
+    return eventsCache[townId].get(eventId);
   }
 }

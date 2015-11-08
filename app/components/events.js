@@ -4,6 +4,7 @@ import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import {Glyphicon, Modal} from 'react-bootstrap';
 import CreateEventForm from './create-event-form';
+import EventContainer from './event-container';
 import store from '../store';	
 import _ from 'underscore';
 
@@ -25,6 +26,7 @@ const Events = React.createClass ({
 			let upcoming = events.filter((event) => {
 				return Date.parse(event.get('date').iso) >= Date.now()
 			})
+			upcoming = _.sortBy(upcoming, (event) => {return event.get('date').iso})
 			this.setState({
 				events: upcoming,
 			})
@@ -36,6 +38,7 @@ const Events = React.createClass ({
 		let selected = events.filter((event) => {
 			return Moment(event.get('date').iso).format('dddd, MMMM do YYYY') === Moment(date).format('dddd, MMMM do YYYY')
 		})
+		selected = _.sortBy(selected, (event) => {return event.get('date').iso})
 		this.setState({
 			datePicked: true,
 			date: date, 
@@ -53,19 +56,30 @@ const Events = React.createClass ({
 
 	close() {
 		let events = store.getEventsCollection(session.getTownId());
-		let selected = events.filter((event) => {
-			return Moment(event.get('date').iso).format('dddd, MMMM do YYYY') === Moment(this.state.date).format('dddd, MMMM do YYYY')
-		})
-		this.setState({
-			modal: false,
-			events: selected,
-		})
+		if(!this.state.datePicked) {
+			let upcoming = events.filter((event) => {
+				return Date.parse(event.get('date').iso) >= Date.now()
+			})
+			upcoming = _.sortBy(upcoming, (event) => {return event.get('date').iso})
+			this.setState({
+				events: upcoming,
+				modal: false,
+			})
+		}
+		if(this.state.datePicked) {
+			let selected = events.filter((event) => {
+				return Moment(event.get('date').iso).format('dddd, MMMM do YYYY') === Moment(this.state.date).format('dddd, MMMM do YYYY')
+			})
+			selected = _.sortBy(selected, (event) => {return event.get('date').iso})
+			this.setState({
+				modal: false,
+				events: selected,
+			})
+		}
 	},
 
 	render() {
 		let events = this.state.events ;
-
-		console.log(this.state);
 
 		return (
 			<div className="events-container">
@@ -76,18 +90,18 @@ const Events = React.createClass ({
 					onSelect={this.handleSelect}/>
 
 				{!this.state.datePicked && 
-					<div className="upcoming-events">
+					<div>
 						<h1>Upcoming events</h1>
 						{_.map(this.state.events, (event) => {
-							return <h1>{event.get('title')}</h1>
+							return <EventContainer event={event} key={event.get('objectId')} upcoming={!this.state.datePicked}/>
 						})}
 					</div>}
 
 				{this.state.datePicked &&
-					<div className="event-container">
+					<div>
 						<h1>{Moment(this.state.date).format('dddd, MMMM Do YYYY')}</h1>
 						{_.map(this.state.events, (event) => {
-							return <h1>{event.get('title')}</h1>
+							return <EventContainer event={event} key={event.get('objectId')} upcoming={!this.state.datePicked}/>
 						})}
 					</div>}
 
