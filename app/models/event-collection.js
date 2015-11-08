@@ -8,7 +8,7 @@ const EventCollection = Backbone.Collection.extend({
 		 		town: {
 			 		__type: 'Pointer',
 			 		className: 'Town',
-			 		objectId: 'this.townId'
+			 		objectId: this.townId
 		 		}
 		  })
 	  } else {

@@ -138,6 +138,8 @@ body {
 	height: 200px;
 	border: 1px solid black;
 	margin-bottom: 50px;
+	background-size: cover;
+	background-position: center;
 	.town-header-name {
 		padding: 30px;
 		position: absolute;
@@ -147,13 +149,56 @@ body {
 		background: $dark-grey;
 		color: $splash-text;
 	}
+	&:hover .town-header-add {
+		opacity: 0.5;
+		transition: opacity 0.3s ease-in-out;
+	}
+}
+
+.town-header-add {
+	z-index: 5;	
+	position: absolute;
+	top: 80%;
+	right: 20px;
+	font-size: 2.2rem;
+	color: white;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+	cursor: pointer;
+	background: black;
+	padding: 4px;
+	border-radius: 3px;
+	&:hover {
+		opacity: 1;
+		transition: opacity 0.2s ease-in-out;
+	}
+}
+
+.town-header-hometown {
+	position: absolute;
+	right: 20px;
+	bottom: -50px;
+	color: $highlight2;
+	padding: 3px;
+	border-radius: 3px;
+	&.not-hometown {
+		cursor: pointer;
+		background: $highlight2;
+		color: white;
+	}
 }
 
 .side-nav {
 	@include span-columns(3);
 	float: left;
 	a {
+		margin-left: 10px;
 		color: $highlight2;
+		font-size: 2rem;
+		&:hover {
+			background-color: $highlight2;
+			color: white;
+		}
 	}
 }
 
@@ -168,6 +213,7 @@ body {
 	right: 25%;
 	font-size: 6rem;
 	color: $highlight;
+	cursor: pointer;
 }
 
 .trivia-quote {
@@ -419,7 +465,6 @@ body {
 
 .date-picker {
 	width: 50%;
-	margin: 0 auto;
 }
 
 .events-add {

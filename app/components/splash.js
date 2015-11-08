@@ -39,7 +39,7 @@ const Splash = React.createClass({
 			}).then((results) => {
 				let towns = store.getTownCollection();
 				session.setTown(towns.get(results.results[0].objectId))
-				this.props.onSetTown();
+				this.props.onSetLocation();
 			})
 		})
 		this.setState({

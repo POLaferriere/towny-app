@@ -1,4 +1,5 @@
 import Backbone from 'backbone';
+import _ from 'underscore'
 
 const User = Backbone.Model.extend({
 	idAttribute: 'objectId',
@@ -16,13 +17,13 @@ const User = Backbone.Model.extend({
  //        hometown: {
  //          "__type": "Pointer",
  //          "className": "Town",
- //          "objectId": this.get('town').objectId
+ //          "objectId": this.get('hometown').objectId
  //        },
  //      });
  //    } else {
  //      return _.clone(this.attributes);
  //    }
- //  }
+  // }
 });
 
 

@@ -72,8 +72,30 @@ const Session = Backbone.Model.extend({
       return this.get('town').get('objectId');
     },
 
+    getHometown() {
+      return this.get('currentUser').get('hometown').objectId;
+    },
+
+    setHometown(id) {
+      return $.ajax({
+        url: 'https://api.parse.com/1/users/' + this.getUser().get('objectId'),
+        method: 'PUT',
+        data: JSON.stringify({
+          hometown: {
+            __type: "Pointer",
+            className: "Town",
+            objectId: id
+          },
+        })
+      })
+    },
+
     hasUser() {
       return !!this.get('currentUser');
     },
+
+    getUser() {
+      return this.get('currentUser');
+    }
 });
 export default Session;

@@ -29,7 +29,11 @@ var App = React.createClass({
   },
 
   handleLocationSet() {
-    this.forceUpdate();
+    let townId = session.getTownId();
+    this.history.pushState({}, '/town/' + townId)
+    this.setState({
+      splashUp: false,
+    })
   },
 
   handleLogout() {
@@ -60,7 +64,7 @@ var App = React.createClass({
   },
 
   goToHometown() {
-    let townId = session.getTownId();
+    let townId = session.getHometown();
     this.history.pushState({}, '/town/' + townId)
     this.setState({
       splashUp: false,
