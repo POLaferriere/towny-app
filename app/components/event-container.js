@@ -20,8 +20,8 @@ const EventContainer = React.createClass({
 		return (
 			<div className="event-container" onClick={this.goToEvent}>
 				<h1 className="event-container-title">{event.title}</h1>
-				{this.props.upcoming && <p>{moment(event.date.iso).format('MMM Do [at] h:mm A')}</p>}
-				{!this.props.upcoming && <p>{moment(event.date.iso).format('h:mm A')}</p>}
+				{this.props.upcoming && <p className='event-container-date'>{moment(event.date.iso).format('MMM Do [at] h:mm A')}</p>}
+				{!this.props.upcoming && <p className='event-container-date'>{moment(event.date.iso).format('h:mm A')}</p>}
 			</div>
 		)
 	}

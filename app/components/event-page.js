@@ -8,7 +8,7 @@ const EventPage = React.createClass({
 	mixins: [History],
 
 	goBack() {
-		this.history.goBack()	;
+		this.history.goBack();
 	},
 
 	render() {

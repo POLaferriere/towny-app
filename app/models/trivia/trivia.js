@@ -5,6 +5,7 @@ var Trivia = Backbone.Model.extend({
 	defaults: {
 		body: '',
 		location: {},
+    likes: 0,
 	},
 	idAttribute: 'objectId',
 	urlRoot: 'https://api.parse.com/1/classes/Trivia',

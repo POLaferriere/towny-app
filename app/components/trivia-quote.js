@@ -36,7 +36,9 @@ const TriviaQuote = React.createClass({
 
 	handleDelete(e) {
 		e.preventDefault();
-		this.props.model.destroy();
+		this.props.model.destroy({wait: true}).then(() => {
+			this.props.onChange();
+		});
 	},
 
 	handleEdit(e) {
@@ -58,6 +60,12 @@ const TriviaQuote = React.createClass({
 		this.setState({seeComments: false}) : this.setState({seeComments: true});
 	},
 
+	like() {
+		let trivia = this.props.model;
+		trivia.set('likes', trivia.get('likes')+1);
+		trivia.save().then(() => {this.forceUpdate()})
+	},
+
 	onChange() {
 		this.forceUpdate();
 	},
@@ -76,13 +84,26 @@ const TriviaQuote = React.createClass({
 		let triviaId = this.props.model.get('objectId');
 		let commentLength = this.state.comments.length;
 		let comments = this.state.comments
+		let likes = this.props.model.get('likes');
 		//TODO add code for when there are no comments
 		return(
 			<li className='trivia-quote'>
 				{!this.state.isEditing && <h5 className='trivia-quote-text'>{body}</h5>}
 				{this.state.isEditing && <AddTrivia triviaId={triviaId} onSubmit={this.onSubmit}/>}
 				<div className="trivia-quote-sub-header">
-					<Glyphicon glyph='comment' className='trivia-quote-sub-header-comments' onClick={this.seeComments}><span className='comment-length'>{commentLength}</span>Comments</Glyphicon>
+					<Glyphicon 
+						glyph='comment' 
+						className='trivia-quote-sub-header-comments' 
+						onClick={this.seeComments}>
+						<span className='comment-length'>{commentLength}</span>
+						Comments
+					</Glyphicon>
+					<Glyphicon 
+						glyph='thumbs-up' 
+						className='trivia-quote-sub-header-likes' 
+						onClick={this.like}>
+						<span className='likes'>{likes}</span>
+					</Glyphicon>
 					<p className='trivia-quote-date'>{moment(created, moment.ISO_8601).fromNow()}</p>
 				</div>
 				{this.state.seeComments && <TriviaComments comments={comments} triviaId={triviaId} onChange={this.onChange}/>}

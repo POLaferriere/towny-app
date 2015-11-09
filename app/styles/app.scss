@@ -89,9 +89,18 @@ body {
 }
 
 //--------------App Header----------------//
+.left-nav-links {
+	width: 45%;
+}
+
+#search-bar {
+	min-width: 300px;
+}
+
 .nav-search{
 	position: relative;
 	color: black;
+	width: 100%;
 }
 
 .nav-search-results {
@@ -99,6 +108,10 @@ body {
 	position: absolute;
 	background: white;
 	padding: 5px 10px;
+	&.hidden {
+		height: 0;
+		overflow: hidden;
+	}
 }
 
 
@@ -187,6 +200,9 @@ body {
 		cursor: pointer;
 		background: $highlight2;
 		color: white;
+		&:hover {
+			background: $light-highlight2;
+		}
 	}
 }
 
@@ -207,6 +223,10 @@ body {
 //----------------Trivia-----------------//
 .trivia-container {
 	@include span-columns(9);
+}
+
+.trivia-container-modal	 {
+	margin-top: 15%;
 }
 
 .trivia-add {
@@ -268,6 +288,14 @@ body {
 			margin: 0 5px;
 		}
 	}
+	.trivia-quote-sub-header-likes {
+		float: left;
+		cursor: pointer;
+		margin-left: 20px;
+		.likes {
+			margin: 0 5px;
+		}
+	}
 }
 
 .trivia-quote-comments {
@@ -297,6 +325,26 @@ body {
 	right: 20px;
 	opacity: 0;
 	transition: opacity 0.3s ease-in-out;
+}
+
+.trivia-add-modal {
+	@include clearfix();
+	padding: 50px;
+	background: $very-light-grey;
+	.add-trivia {
+		width: 100%;
+		margin: 0;
+		> * {
+			display: block;
+			margin: 0 auto;
+		}
+		.add-trivia-input {
+			resize: none;
+		}
+		.add-trivia-button {
+			margin-top: 30px;
+		}
+	}
 }
 //---------------Comment Form--------------//
 .comment-form-input {
@@ -480,6 +528,7 @@ body {
 
 //--------------Event Container------------//
 .event-container {
+	@include clearfix();
 	background: white;
 	margin: 10px 0;
 	padding: 5px;
@@ -489,7 +538,13 @@ body {
 }
 
 .event-container-title {
+	float: left;
 	margin: 10px 0;
+}
+
+.event-container-date {
+	float: right;
+	vertical-align: middle;
 }
 
 //-------------Event Page--------------//

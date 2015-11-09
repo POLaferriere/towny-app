@@ -3,7 +3,7 @@ import store from '../store'
 import _ from 'underscore'
 import { History } from 'react-router';
 import TriviaQuote from './trivia-quote';
-import {Glyphicon} from 'react-bootstrap';
+import {Glyphicon, Modal} from 'react-bootstrap';
 import AddTrivia from './add-trivia'
 
 const Trivia = React.createClass({
@@ -29,20 +29,33 @@ const Trivia = React.createClass({
 	},
 
 //TODO make new posts go to the top
-	onSubmit() {
+	onChange() {
 		this.state.trivia.fetch().then(() =>{
 			this.setState({
+				trivia: this.state.trivia,
 				addingTrivia: false,
 			})
 		})
 	},
 
+	close() {
+		this.setState({
+			addingTrivia: false,
+		})
+	},
+
 	render() {
-		let triviaQuotes = this.state.trivia || {};
+		let triviaQuotes = this.state.trivia.sortBy('likes').reverse() || {};
+		console.log(triviaQuotes)
 
 		return (
 			<div className='trivia-container'>
-				{this.state.addingTrivia && <AddTrivia onSubmit={this.onSubmit}/>}
+
+				<Modal show={this.state.addingTrivia} onHide={this.close} className='trivia-container-modal'>
+					<Modal.Body modalClassName='trivia-add-modal'>
+						<AddTrivia onSubmit={this.handleSubmit} onSubmit={this.onChange} />
+					</Modal.Body>
+				</Modal>
 
 				<ul>
 					{triviaQuotes.map((quote) => {

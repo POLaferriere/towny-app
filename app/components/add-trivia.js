@@ -2,7 +2,8 @@ import React from 'react';
 import store from '../store';
 import { Link, History } from 'react-router';
 import functions from '../functions';
-import {Glyphicon} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+import $ from 'jquery';
 
 var AddTrivia = React.createClass({
 	propTypes: {
@@ -32,7 +33,10 @@ var AddTrivia = React.createClass({
 				trivia: store.getTriviaModel(),
 			})
 		}
-		
+	},
+
+	componentDidMount() {
+		$('.add-trivia-input').focus();
 	},
 
 	handleEdit(event) {
@@ -49,20 +53,25 @@ var AddTrivia = React.createClass({
 		this.state.trivia.save({
 			body: text,
 			town: {objectId: townId}
+		}).then(() => {
+			this.props.onSubmit();
 		})
-		this.props.onSubmit();
-
 	},
 
 	render() {
-		console.log(this.state)
 		let session = store.getSession();
 		let location = this.state.location;
 		let body = this.state.trivia.get('body');
 		return (
 			<form className='add-trivia' onSubmit={this.handleSubmit}>
-				<input className='add-trivia-input' type="text" onKeyUp={this.handleEdit} defaultValue={(body) || ''}/>
-				<Glyphicon glyph='plus' className='add-trivia-add' onClick={this.handleSubmit}/>
+				<textarea 
+					className='add-trivia-input' 
+					type="text" 
+					onKeyUp={this.handleEdit} 
+					defaultValue={(body) || ''}
+					rows={8}>
+				</textarea>
+				<Button bsSize='large' bsStyle='primary' className='add-trivia-button' onClick={this.handleSubmit}>Submit</Button>
 			</form>
 		)
 	}

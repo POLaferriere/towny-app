@@ -4,6 +4,7 @@ import store from '../store';
 import Splash from './splash';
 import {Navbar, NavBrand, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap'
 import {Typeahead} from 'react-typeahead';
+import $ from 'jquery';
 
 var App = React.createClass({
   propTypes: {
@@ -14,6 +15,7 @@ var App = React.createClass({
     return {
       townsLoaded: false,
       splashUp: true,
+      searchInput: '',
     }
   },
 
@@ -56,11 +58,28 @@ var App = React.createClass({
     this.history.pushState({}, '/user');
   },
 
+  handleInput(e) {
+    this.setState({
+      searchInput: e.target.value,
+    });
+  },
+
   handleSearch(town) {
     let towns = store.getTownCollection();
     let townId = towns.findWhere({name: town}).get('objectId');
     session.setTown(store.getTown(townId));
     this.history.pushState({}, '/town/' + townId);
+    this.setState({
+      searchInput: ''
+    })
+  },
+
+  handleBlur() {
+    $('.nav-search-results').addClass('hidden');
+  },
+
+  handleFocus() {
+    $('.nav-search-results').removeClass('hidden');
   },
 
   goToHometown() {
@@ -99,15 +118,18 @@ var App = React.createClass({
           (<div>
             <Navbar inverse>
               <NavBrand><a href="/">Towny</a></NavBrand>
-              <Nav navbar>
-                <NavItem onClick={this.goToHometown}>Your hometown</NavItem>
-                <NavItem>
+              <Nav navbar ulClassName='left-nav-links'>
+                <NavItem linkId='search-bar'>
                   <Typeahead 
                     className='typeahead-component'
+                    value={this.state.searchInput}
+                    onKeyUp={this.handleInput}
                     options={townNames}
                     placeholder='Find your town'
                     maxVisible={4}
                     onOptionSelected={this.handleSearch}
+                    onBlur={this.handleBlur}
+                    onFocus={this.handleFocus}
                     customClasses={{
                       input: 'nav-search',
                       results: 'nav-search-results'
@@ -117,6 +139,7 @@ var App = React.createClass({
               </Nav>
               <Nav right>
                 <NavItem onClick={this.goToCreate}>Create a town</NavItem>
+                <NavItem onClick={this.goToHometown}>Your hometown</NavItem>
                 <NavDropdown 
                   eventKey={3} 
                   title={session.hasUser() && store.getCurrentUser().get('username') || 'Guest'} 
@@ -142,29 +165,3 @@ var App = React.createClass({
 });
 
 export default App;
-
-//  <nav className="top-bar" data-topbar role="navigation">
-//   <div className="nav-container">
-//     <ul className="title-area">
-//       <li className="name">
-//         <h1><IndexLink to="/">Towny</IndexLink></h1>
-//       </li>
-//     </ul>
-//     <section className="top-bar-section">
-//       <ul className="left">
-//         <li><Link to="/trivia">Trivia</Link></li>
-//       </ul>
-//       <ul className="right">
-//         <li className="has-dropdown">
-//           <Link to="/user">{session.hasUser() && store.getCurrentUser().get('username') || 'Guest'}</Link>
-//           <ul className="dropdown">
-//             {session.hasUser() &&(<li><Link to={'/user'}>User Settings</Link></li>)}
-//             {!localStorage.getItem('parse-session-token') && (<li><Link to={'/login'}>Login</Link></li>)}
-//             {localStorage.getItem('parse-session-token') && (<li><Link to={'/logout'} onClick={this.handleLogout}>Logout</Link></li>)}
-//             {!session.hasUser() && (<li><Link to={'/signup'}>Sign Up</Link></li>)}
-//           </ul>
-//         </li>
-//       </ul>
-//     </section>
-//   </div>
-// </nav>

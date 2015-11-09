@@ -36,7 +36,7 @@ const Town = React.createClass({
 
 		filepicker.pick(
 			{
-				cropDim: [1050, 200],
+				cropRatio: 5/1,
 			},
 			function(Blob) {
 				$.ajax({
