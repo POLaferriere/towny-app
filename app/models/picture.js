@@ -14,6 +14,11 @@ const Picture = Backbone.Model.extend({
           "className": "Town",
           "objectId": this.get('town').objectId
         },
+        creator: {
+          "__type": "Pointer",
+          "className": "_User",
+          "objectId": this.get('user').objectId
+        }
       });
     } else {
       return _.clone(this.attributes);

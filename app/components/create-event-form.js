@@ -42,7 +42,7 @@ const CreateEventForm = React.createClass({
 			url: this.state.url,
 			date: Moment(this.state.date).toISOString(),
 		}
-		store.newEvent(session.getTownId(), event)
+		store.newEvent(session.getTownId(), session.getUserId(), event)
 		this.props.onSubmit();
 	},
 

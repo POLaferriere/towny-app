@@ -96,6 +96,10 @@ const Session = Backbone.Model.extend({
 
     getUser() {
       return this.get('currentUser');
+    },
+
+    getUserId() {
+      return this.get('currentUser').get('objectId');
     }
 });
 export default Session;

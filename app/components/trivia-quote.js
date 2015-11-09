@@ -85,6 +85,8 @@ const TriviaQuote = React.createClass({
 		let commentLength = this.state.comments.length;
 		let comments = this.state.comments
 		let likes = this.props.model.get('likes');
+		let creator = this.props.model.get('creator') || {};
+		
 		//TODO add code for when there are no comments
 		return(
 			<li className='trivia-quote'>
@@ -104,13 +106,17 @@ const TriviaQuote = React.createClass({
 						onClick={this.like}>
 						<span className='likes'>{likes}</span>
 					</Glyphicon>
+					
 					<p className='trivia-quote-date'>{moment(created, moment.ISO_8601).fromNow()}</p>
 				</div>
+
 				{this.state.seeComments && <TriviaComments comments={comments} triviaId={triviaId} onChange={this.onChange}/>}
 
-				<Glyphicon glyph='remove' className='trivia-quote-remove' onClick={this.handleDelete} />
-				<Glyphicon glyph='pencil' className='trivia-quote-edit' onClick={this.handleEdit} />
-				
+				{creator.objectId == session.getUserId() && <div className="triva-quote-edit-buttons">
+					<Glyphicon glyph='remove' className='trivia-quote-remove' onClick={this.handleDelete} />
+					<Glyphicon glyph='pencil' className='trivia-quote-edit' onClick={this.handleEdit} />
+				</div>}
+
 			</li>
 		)
 	}

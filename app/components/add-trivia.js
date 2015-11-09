@@ -52,7 +52,8 @@ var AddTrivia = React.createClass({
 		let townId = session.getTownId();
 		this.state.trivia.save({
 			body: text,
-			town: {objectId: townId}
+			town: {objectId: townId},
+			user: {objectId: session.getUserId()},
 		}).then(() => {
 			this.props.onSubmit();
 		})

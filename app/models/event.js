@@ -14,6 +14,11 @@ const Event = Backbone.Model.extend({
           "className": "Town",
           "objectId": this.get('town').objectId
         },
+        creator: {
+          "__type": "Pointer",
+          "className": "_User",
+          "objectId": this.get('creator').objectId
+        }
         
       });
     } else {

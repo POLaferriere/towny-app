@@ -446,9 +446,19 @@ body {
 	margin-top: 10%;
 }
 
+.carousel-modal-image {
+	position: relative;
+	&:hover .carousel-modal-delete {
+		opacity: 0.5;
+		transition: opacity 0.3s ease-in-out;
+	}
+}
+
 .carousel-control.right,
 .carousel-control.left {
 	background-image: none;
+	top: 30%;
+	bottom: 30%;
 	&:hover .glyphicon-chevron-right,
 	&:hover .glyphicon-chevron-left, {
 		opacity: 1;
@@ -500,12 +510,48 @@ body {
 	}
 }
 
+.carousel-modal-delete {
+	cursor: pointer;
+	z-index: 1000;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	font-size: 3rem;
+	color: white;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+	padding: 10px;
+	border-radius: 5px;
+	&:hover {
+		opacity: 1;
+		background: red;
+		transition: all 0.3s ease-in-out;
+	}
+}
+
+.modal-container .modal,
+.modal-container .modal-backdrop {
+	position: absolute;
+}
+
 .panel {
 	border: none;	
 }
 
 .add-picture-input {
 	width: 100%;
+}
+
+.warning-modal {
+	margin-top: 20%;
+	h1 {
+		text-align: center;
+		font-size: 2rem;
+	}
+}
+
+.warning-modal-buttons {
+	text-align: center;
 }
 
 //-------------------Events------------------//
@@ -554,26 +600,76 @@ body {
 	padding: 0 20px;
 }
 
+.event-page-title{
+	&:hover .event-page-edit {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
+	}
+}
+
 .event-page-date {
 	margin-left: 15px;
 	color: $grey;
+	&:hover .event-page-edit {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
+	}
+}
+
+.event-page-body {
+	@include span-columns(9 of 9);
+	@include clearfix();
 }
 
 .event-page-description {
 	@include span-columns(7 of 9);
 }
 
-.event-page-url {
+.event-page-paragraph-edit {
 	@include span-columns(9 of 9);
 	display: block;
-}
-
-.event-page-back {
-	@include span-columns(9 of 9);
 	color: $highlight2;
 	cursor: pointer;
 	&:hover {
 		color: $light-highlight2;
+	}
+}
+
+.event-page-url {
+	@include span-columns(9 of 9);
+	display: block;
+	&:hover .event-page-edit {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
+	}
+}
+
+.event-page-back {
+	@include span-columns(9 of 9);
+	margin-top: 50px;
+	color: $highlight2;
+	cursor: pointer;
+}
+
+
+.event-page-edit {
+	margin-left: 20px;
+	color: $highlight2;
+	opacity: 0;
+	cursor: pointer;
+	&:hover {
+		color: $light-highlight2;
+		transition: opacity 0.3s ease-in-out;
+	}
+	&.title {
+		font-size: 2rem;
+	}
+}
+
+.event-page-edit-input {
+	width: 100%;
+	&.edit-description {
+		resize: vertical;
 	}
 }
 

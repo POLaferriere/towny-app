@@ -66,7 +66,8 @@ const Pictures = React.createClass({
 		pictures.create({
 			url: this.state.loadingImage,
 			caption: this.state.modalInput,
-			town: {objectId: townId}
+			town: {objectId: townId},
+			user: {objectId: session.getUserId()}
 		})
 
 		this.setState({

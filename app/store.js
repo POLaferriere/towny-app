@@ -83,11 +83,13 @@ export default {
 
   getPictureCollection(id) {
     let pictures = (picturesCache[id] = picturesCache[id] || new PictureCollection({townId: id}));
+    picturesCache[id] = pictures;
     return pictures;
   },
 
   getPictureComments(id) {
     let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {pictureId: id}));
+    commentsCache[id] = comments;
     return comments;
   },
 
@@ -99,14 +101,15 @@ export default {
     })
   },
 
-  newEvent(id, event) {
+  newEvent(townId, userId, event) {
     let events = (eventsCache[id] = eventsCache[id] || new EventCollection({townId: id}))
     events.create({
       title: event.title,
       description: event.description,
       url: event.url,
       date: {"__type": "Date", "iso": event.date},
-      town: {objectId: id}
+      town: {objectId: townId},
+      creator: {objectId: userId}
     })
   },
   
