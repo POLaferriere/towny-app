@@ -86,7 +86,7 @@ const Splash = React.createClass({
 		return (
 			<div className='intro-splash'>
 				<div className='splash-container'>
-					<h1>Towny</h1>
+					<h1>Town(y)</h1>
 					{this.props.townsLoaded && 
 						<div>
 							<p>What's your hometown?</p>

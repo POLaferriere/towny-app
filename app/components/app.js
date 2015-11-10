@@ -75,7 +75,9 @@ var App = React.createClass({
   },
 
   handleBlur() {
-    $('.nav-search-results').addClass('hidden');
+    setTimeout(() => {
+      $('.nav-search-results').addClass('hidden');
+    }, 1000)
   },
 
   handleFocus() {

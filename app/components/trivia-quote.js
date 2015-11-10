@@ -86,6 +86,7 @@ const TriviaQuote = React.createClass({
 		let comments = this.state.comments
 		let likes = this.props.model.get('likes');
 		let creator = this.props.model.get('creator') || {};
+		console.log(this.props.model)
 		
 		//TODO add code for when there are no comments
 		return(

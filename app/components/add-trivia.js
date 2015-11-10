@@ -65,6 +65,7 @@ var AddTrivia = React.createClass({
 		let body = this.state.trivia.get('body');
 		return (
 			<form className='add-trivia' onSubmit={this.handleSubmit}>
+				<h1>Facts about your town(y)</h1>
 				<textarea 
 					className='add-trivia-input' 
 					type="text" 

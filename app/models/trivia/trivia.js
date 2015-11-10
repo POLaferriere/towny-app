@@ -22,7 +22,7 @@ var Trivia = Backbone.Model.extend({
         creator: {
           "__type": "Pointer",
           "className": "_User",
-          "objectId": this.get('user').objectId
+          "objectId": this.get('creator').objectId
         }
       });
     } else {
