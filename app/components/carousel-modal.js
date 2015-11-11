@@ -1,6 +1,9 @@
 import React from 'react';
-import {Carousel, CarouselItem, Glyphicon, Modal, ButtonGroup, Button} from 'react-bootstrap';
+import {Carousel, CarouselItem, Glyphicon, Modal, ButtonGroup, Button, Tooltip, OverlayTrigger,} from 'react-bootstrap';
 import store from '../store';
+import _ from 'underscore';
+
+const likeTooltip = (<Tooltip>You must be logged in to like</Tooltip>);
 
 const CarouselModal = React.createClass({
 	propTypes: {
@@ -30,15 +33,6 @@ const CarouselModal = React.createClass({
 		this.setState({
 			showModal: true,
 		})
-		// let pictures = store.getPictureCollection(session.getTownId());
-		
-		// picture.destroy().then(() => {
-		// 	pictures.fetch().then(() => {
-		// 		this.setState({
-		// 			index: this.state.index+1
-		// 		})
-		// 	})
-		// })
 	},
 
 	close() {
@@ -48,8 +42,20 @@ const CarouselModal = React.createClass({
 	},
 
 	like(picture) {
-		picture.set('likes', picture.get('likes')+1);
-		picture.save().then(() => {this.forceUpdate()});
+		let collection = store.getPictureCollection(session.getTownId());
+		let likes = _.map(picture.get('likes'), (like) =>{
+			return JSON.parse(like)
+		});
+		if(!_.any(likes, (like) => {
+			return like.objectId == session.getUserId()
+		})) {
+			picture.get('likes').push(JSON.stringify({	
+				__type: "Pointer",
+				class: "User",
+				objectId: session.getUserId(),
+			}))
+			picture.save().then(() => this.forceUpdate());
+		}
 	},
 
 	showComments(comments) {
@@ -68,25 +74,37 @@ const CarouselModal = React.createClass({
 				onSelect={this.handleSelect}>
 				{pictures.map((picture) => {
 					let comments = store.getPictureComments(picture.get('objectId'));
+					let likesArray = _.map(picture.get('likes'), (like) => {
+						return JSON.parse(like)
+					});
 
 					return (
 						<CarouselItem className='carousel-modal-image modal-container'>
 							<img width={900} src={picture.get('url')} />
 							<p className="carousel-modal-caption">{picture.get('caption')}</p>
 							<div className="carousel-modal-stats">
-								<Glyphicon 
-									glyph='thumbs-up' 
-									className='like-icon' 
-									onClick={this.like.bind(this, picture)}>
-									<span className='likes'>{picture.get('likes')}</span>
-								</Glyphicon>
+								{session.hasUser() && 
+									<Glyphicon 
+										glyph='thumbs-up' 
+										className={'like-icon ' + (_.any(likesArray, (like) => {return like.objectId == session.getUserId()}) && 'liked')}
+										onClick={this.like.bind(this, picture)}>
+										<span className='likes'>{likesArray.length}</span>
+									</Glyphicon>}
+								{!session.hasUser() &&
+									<OverlayTrigger placement='bottom' overlay={likeTooltip}>
+										<Glyphicon 
+											glyph='thumbs-up' 
+											className='like-icon'>
+											<span className='likes'>{likesArray.length}</span>
+										</Glyphicon>
+									</OverlayTrigger>}
 								<Glyphicon 
 									glyph='comment' 
 									className='comment-icon'
 									onClick={this.showComments.bind(this, comments)}>
 									<span className='comments'>{comments.length}</span></Glyphicon>
 							</div>
-							{picture.get('creator').objectId == session.getUserId() && 
+							{picture.get('creator').objectId == (session.hasUser() && session.getUserId()) && 
 								<Glyphicon glyph='trash' className='carousel-modal-delete' onClick={this.handleDelete.bind(this, picture)}/>}
 
 							<Modal

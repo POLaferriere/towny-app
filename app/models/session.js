@@ -18,7 +18,7 @@ const Session = Backbone.Model.extend({
           this.set('currentUser', store.getUser(response));
           localStorage.setItem('parse-session-token', response.sessionToken);
           return true;
-        }, (x) => {console.log(x)});
+        }, (x) => {console.log('error1')});
       } else if (options.sessionToken) {
         // I'm authenticating with a sessionToken
         localStorage.setItem('parse-session-token', options.sessionToken);
@@ -27,7 +27,7 @@ const Session = Backbone.Model.extend({
         return user.fetch().then(() => {
           this.set('currentUser', user.clone());
           return true;
-        }, () => false);
+        }, () => {console.log('error2')});
       } else {
         console.error("Invalid arguments to authenticate");
         var dfd = new $.Deferred();

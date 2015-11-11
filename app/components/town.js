@@ -1,14 +1,19 @@
 import React from 'react';
-import {Nav, NavItem, Glyphicon} from 'react-bootstrap';
+import {Nav, NavItem, Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import {History} from 'react-router';
 import store from '../store';
 import $ from 'jquery';
 
+const hometownTooltip = (<Tooltip>You must be logged in to set hometowns</Tooltip>)
+
 const Town = React.createClass({
+	propTypes: {
+		onSubmit: React.PropTypes.func,
+	},
 
 	getInitialState() {
 		return {
-			hometown: session.hasUser() && session.getUser().get('hometown').objectId
+			hometown: session.hasUser() && session.getUser().get('hometown').objectId || null,
 		}
 	},
 
@@ -55,6 +60,10 @@ const Town = React.createClass({
 		var userHometown = this.state.hometown;
 		let headerStyle = {backgroundImage: 'url(' + town.banner + ')'}
 
+		let childrenWithProps = React.Children.map(this.props.children, (child) => {
+			return React.cloneElement(child, {onSubmit: this.props.onSubmit})
+		})
+
 
 		return (
 			<div className='town-container'>
@@ -62,15 +71,23 @@ const Town = React.createClass({
 					className="town-header" 
 					style={headerStyle}>
 					<h1 className="town-header-name">{town.name}</h1>
-					<Glyphicon glyph='pencil' className='town-header-add' onClick={this.handleAddBanner} />
+					{session.hasUser() && <Glyphicon glyph='pencil' className='town-header-add' onClick={this.handleAddBanner} />}
 					{town.objectId == userHometown && 
 						<p className="town-header-hometown">This is your hometown</p>}
-					{town.objectId != userHometown && 
+					{session.hasUser() && (town.objectId != userHometown && 
 						<p 
 							className="town-header-hometown not-hometown"
 							onClick={this.makeHometown.bind(this, town.objectId)}>
 							Make this your hometown
-						</p>}
+						</p>)}
+					{!session.hasUser() &&
+						<OverlayTrigger placement='bottom' overlay={hometownTooltip}>
+							<p 
+								className="town-header-hometown not-hometown">
+								Make this your hometown
+							</p>
+						</OverlayTrigger>
+					}
 				</div>
 				<div className="side-nav">
 					<Nav  bsStyle="pills" stacked>
@@ -80,7 +97,7 @@ const Town = React.createClass({
 				  </Nav>
 				</div>
 
-				{this.props.children}
+				{childrenWithProps}
 			</div>
 		)
 	}

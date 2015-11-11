@@ -1,14 +1,17 @@
 import React from 'react';
 import filepicker from 'filepicker-js';
 import store from '../store';
-import {Glyphicon, Modal, Button} from 'react-bootstrap';
+import {Glyphicon, Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import masonry from 'react-masonry-component';
 import CarouselModal from './carousel-modal';
 import Picture from './picture';
 import AddPictureComment from './add-picture-comment'
+import Login from './login';
+
 
 let Masonry = masonry(React);
 
+const commentTooltip = (<Tooltip>You must be logged in to comment</Tooltip>);
 
 const Pictures = React.createClass({
 	getInitialState() {
@@ -19,6 +22,8 @@ const Pictures = React.createClass({
 			modalInput: '',
 			clickedImage: 0,
 			showComments: false,
+			logIn: false,
+			commenting: false,
 		}
 	},
 
@@ -30,20 +35,29 @@ const Pictures = React.createClass({
 	handleAdd() {
 		let url;
 		let _this = this;
+		if(session.hasUser()) {
+			filepicker.setKey('ApbFEe9SIQimm36czGHxwz');
 
-		filepicker.setKey('ApbFEe9SIQimm36czGHxwz');
-
-		filepicker.pick(
-			function(Blob) {
-				_this.setState({
-					showModal: true,
-					loadingImage: Blob.url
-				})
-			}
-		)
+			filepicker.pick(
+				function(Blob) {
+					_this.setState({
+						showModal: true,
+						loadingImage: Blob.url
+					})
+				}
+			)
+		} else {
+			this.setState({
+				logIn: true,
+			});
+		}
 	},
 
-	close() {},
+	close() {
+		this.setState({
+			logIn: false,
+		})
+	},
 
 	closeCarousel() {
 		this.setState({
@@ -96,12 +110,25 @@ const Pictures = React.createClass({
 	onCommentSubmit(comment) {
 		store.commentOnPicture(this.state.comments.pictureId, comment);
 		this.setState({
-			showComments: !this.state.showComments,
+			commenting: false,
 		})
 	},
 
 	closeComments() {
-		this.showComments ? this.setState({showComments: false}) : null
+		this.showComments ? this.setState({showComments: false, commenting: false}) : null
+	},
+
+	onLogin() {
+		this.setState({
+			logIn: false,
+		})
+		this.props.onSubmit();
+	},
+
+	comment() {
+		this.setState({
+			commenting: true,
+		})
 	},
 
 	render() {
@@ -152,14 +179,29 @@ const Pictures = React.createClass({
 					</Modal.Body>
 					<Modal.Footer>
 						{this.state.showComments && <div className="carousel-modal-comments">
-								{this.state.comments.length == 0 && 
-									<AddPictureComment onSubmit={this.onCommentSubmit}/>}
-								{this.state.comments.length !=0 && this.state.comments.map((comment) => {
-									return <p>{comment.get('text')}</p>
+								{this.state.comments.map((comment) => {
+									return (
+										<div>
+											<p className='carousel-modal-comment'>{comment.get('text')}</p>
+										</div>
+										)
 								})}
-								{this.state.commenting && <AddPictureComment/>}
+								{session.hasUser() &&
+									(!this.state.commenting && <p className='carousel-modal-click' onClick={this.comment}>What do you think?</p>)}
+								{!session.hasUser() &&
+									(!this.state.commenting && 
+										<OverlayTrigger placement='bottom' overlay={commentTooltip}>
+											<p className='carousel-modal-click'>What do you think?</p>
+										</OverlayTrigger>)}	
+								{this.state.commenting && <AddPictureComment onSubmit={this.onCommentSubmit} />}
 							</div>}
 					</Modal.Footer>
+				</Modal>
+
+				<Modal show={this.state.logIn} onHide={this.close} className='login-modal'>
+					<Modal.Body modalClassName='login-modal-body'>
+						<Login onLogin={this.onLogin}/>
+					</Modal.Body>
 				</Modal>
 
 			</div>

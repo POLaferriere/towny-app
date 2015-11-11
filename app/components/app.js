@@ -2,9 +2,10 @@ import React from 'react';
 import { IndexLink, Link, History } from 'react-router';
 import store from '../store';
 import Splash from './splash';
-import {Navbar, NavBrand, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap'
+import {Navbar, NavBrand, NavItem, Nav, NavDropdown, MenuItem, OverlayTrigger, Popover} from 'react-bootstrap'
 import {Typeahead} from 'react-typeahead';
 import $ from 'jquery';
+import Login from './login'
 
 var App = React.createClass({
   propTypes: {
@@ -51,7 +52,7 @@ var App = React.createClass({
   },
 
   handleSignup() {
-    this.history.pushState({}, '')
+    this.history.pushState({}, '/signup')
   },
 
   handleUser(e) {
@@ -85,7 +86,9 @@ var App = React.createClass({
   },
 
   goToHometown() {
-    let townId = session.getHometown();
+    let townId = session.getTownId();
+    let hometown = store.getTownCollection().get(townId);
+    session.setTown(hometown);
     this.history.pushState({}, '/town/' + townId)
     this.setState({
       splashUp: false,
@@ -103,10 +106,18 @@ var App = React.createClass({
     this.history.pushState({}, '/create')
   },
 
+  onSubmit() {
+    this.forceUpdate();
+  },
+
   render() {
     let session = store.getSession();
     let towns = store.getTownCollection();
     let townNames = towns.pluck('name');
+
+    let childrenWithProps = React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, {onSubmit: this.onSubmit})
+    })
 
     return (
       <div>
@@ -140,24 +151,31 @@ var App = React.createClass({
                   </NavItem>
               </Nav>
               <Nav right>
-                <NavItem onClick={this.goToCreate}>Create a town</NavItem>
-                <NavItem onClick={this.goToHometown}>Your hometown</NavItem>
-                <NavDropdown 
+                {session.hasUser() &&<NavItem onClick={this.goToCreate}>Create a town</NavItem>}
+                {session.hasUser() && <NavItem onClick={this.goToHometown}>Your hometown</NavItem>}
+                {!localStorage.getItem('parse-session-token') && 
+                  <OverlayTrigger 
+                    trigger="click"
+                    rootClose 
+                    placement="bottom"
+                    id='login-popover' 
+                    overlay={<Popover><Login popover={true} onLogin={this.onSubmit}/></Popover>}>
+                    <MenuItem>Login</MenuItem>
+                  </OverlayTrigger>}
+                {!session.hasUser() && <NavItem onClick={this.handleSignup}>Sign Up</NavItem>}
+
+                {session.hasUser() && <NavDropdown 
                   eventKey={3} 
                   title={session.hasUser() && store.getCurrentUser().get('username') || 'Guest'} 
                   id="basic-nav-dropdown">
                   {session.hasUser() && <MenuItem eventKey="1" onClick={this.handleUser}>User Settings</MenuItem>}
-                  {!localStorage.getItem('parse-session-token') && <MenuItem eventKey="2" onClick={this.handleLogin}>Login</MenuItem>}
-                  {localStorage.getItem('parse-session-token') && <MenuItem eventKey="3" onClick={this.handleLogout}>Logout</MenuItem>}
-                  {!session.hasUser() && <MenuItem eventKey="4" onClick={this.handleSignup}>Sign Up</MenuItem>}
-                  <MenuItem divider />
-                  <MenuItem eventKey="4">Separated link</MenuItem>
-                </NavDropdown>
+                  {localStorage.getItem('parse-session-token') && <NavItem onClick={this.handleLogout}>Logout</NavItem>}
+                </NavDropdown>}
               </Nav>
             </Navbar>
            
 
-            {this.props.children}
+            {childrenWithProps}
 
             <footer className='footer'/>
           </div>)}

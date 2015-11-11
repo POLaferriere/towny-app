@@ -1,6 +1,9 @@
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
 import store from '../store';
+import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+
+const commentTooltip = (<Tooltip>You must be logged in to comment</Tooltip>);
 
 const TriviaComment = React.createClass({
 	propTypes: {
@@ -26,8 +29,12 @@ const TriviaComment = React.createClass({
 		return (
 			<li className='trivia-quote-comment'>
 				<p>{this.props.text}</p>
-				<p className='trivia-quote-comment-reply' onClick={this.handleReply}>Reply</p>
-				<Glyphicon className='trivia-quote-comment-remove' glyph='remove' onClick={this.handleRemove}/>
+				{session.hasUser() && <p className='trivia-quote-comment-reply' onClick={this.handleReply}>Reply</p>}
+				{!session.hasUser() && 
+					<OverlayTrigger placement='bottom' overlay={commentTooltip}>
+						<p className='trivia-quote-comment-reply'>Reply</p>
+					</OverlayTrigger>}
+				{session.hasUser() && <Glyphicon className='trivia-quote-comment-remove' glyph='remove' onClick={this.handleRemove}/>}
 			</li>
 		)
 	}

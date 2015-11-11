@@ -1,6 +1,9 @@
 import React from 'react';
 import TriviaComment from './trivia-comment';
 import CommentForm from './comment-form';
+import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+
+const commentTooltip = (<Tooltip>You must be logged in to comment</Tooltip>);
 
 const TriviaComments = React.createClass({
 	propTypes: {
@@ -39,7 +42,13 @@ const TriviaComments = React.createClass({
 		return (
 			<ul className='trivia-quote-comments'>
 				{!this.props.comments.length && !this.state.commenting &&
-					<p>There's nothing here. <span className='trivia-quote-comments-first' onClick={this.setCommenting}>Be the first to say something</span></p>}
+					<p>{"There's nothing here. "}
+						{session.hasUser() && <span className='trivia-quote-comments-first' onClick={this.setCommenting}>Be the first to say something</span>}
+						{!session.hasUser() && 
+							<OverlayTrigger placement='bottom' overlay={commentTooltip}>
+								<span className='trivia-quote-comments-first'>Be the first to say something</span>
+							</OverlayTrigger>}
+					</p>}
 				{this.props.comments.map((comment) => {
 					return (
 					<TriviaComment 

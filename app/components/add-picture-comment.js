@@ -24,12 +24,21 @@ const AddPictureComment = React.createClass({
 	handleSubmit(e){
 		e.preventDefault();
 		this.props.onSubmit(this.state.input);
+		this.setState({
+			input: ''
+		});
 	},
 
 	render() {
 		return (
 			<form onSubmit={this.handleSubmit}>
-				<input onSelect={this.handleSelect} className='add-picture-input' type="text" placeholder='Comment on this picture' value={this.state.input} onChange={this.handleInput}/>
+				<input 
+					onSelect={this.handleSelect} 
+					className='add-picture-input' 
+					type="text" 
+					placeholder='Comment on this picture' 
+					value={this.state.input} 
+					onChange={this.handleInput}/>
 			</form>
 		)
 	}

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
 import store from '../store';
+import _ from 'underscore';
 
 const Picture = React.createClass({
 	propTypes: {
@@ -32,6 +33,9 @@ const Picture = React.createClass({
 		let picture = this.props.picture;
 		let i = this.props.i;
 		let comments = this.state.comments;
+		let likesArray = _.map(picture.get('likes'), (like) => {
+			return JSON.parse(like)
+		});
 
 		return (
 			<div className='picture-container' onClick={this.startCarousel.bind(this, i)} >
@@ -40,7 +44,7 @@ const Picture = React.createClass({
 					<Glyphicon 
 						glyph='thumbs-up' 
 						className='like-icon'>
-						<span className='likes'>{picture.get('likes')}</span>
+						<span className='likes'>{likesArray.length}</span>
 					</Glyphicon>
 					<Glyphicon 
 						glyph='comment' 

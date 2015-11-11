@@ -124,7 +124,7 @@ const EventPage = React.createClass({
 				{!this.state.editTitle && 
 					<h1 className='event-page-title'>
 						{event.title}
-						{event.creator.objectId == session.getUserId() &&
+						{event.creator.objectId == (session.hasUser() && session.getUserId()) &&
 						<Glyphicon glyph='pencil' className='event-page-edit title' onClick={this.editTitle.bind(this, event.title)} />}
 					</h1>}
 				{this.state.editTitle &&
@@ -137,7 +137,7 @@ const EventPage = React.createClass({
 					</form>}
 				{!this.state.editDate && <p className='event-page-date'>
 					{moment(event.date.iso).format('MMM Do [at] h:mm A')}
-					{event.creator.objectId == session.getUserId() &&
+					{event.creator.objectId == (session.hasUser() && session.getUserId()) &&
 					<Glyphicon glyph='pencil' className='event-page-edit' onClick={this.editDate.bind(this, event.date)}/>}
 				</p>}
 				{this.state.editDate &&
@@ -152,7 +152,7 @@ const EventPage = React.createClass({
 							<p className='event-page-description'>
 								{event.description}
 							</p>
-							{event.creator.objectId == session.getUserId() &&
+							{event.creator.objectId == (session.hasUser() && session.getUserId()) &&
 								<p className='event-page-paragraph-edit' onClick={this.editDescription.bind(this, event.description)}>Edit</p>}
 						</div>}
 					{this.state.editDescription && 
@@ -173,7 +173,7 @@ const EventPage = React.createClass({
 						</form>}
 					{!this.state.editURL && <p className='event-page-url'>
 						{'Link:  ' + event.url}
-						{event.creator.objectId == session.getUserId() &&
+						{event.creator.objectId == (session.hasUser() && session.getUserId()) &&
 						<Glyphicon glyph='pencil' className='event-page-edit' onClick={this.editURL.bind(this, event.url)}/>}
 					</p>}
 					{this.state.editURL &&

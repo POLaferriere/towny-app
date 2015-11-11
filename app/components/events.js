@@ -7,6 +7,7 @@ import CreateEventForm from './create-event-form';
 import EventContainer from './event-container';
 import store from '../store';	
 import _ from 'underscore';
+import Login from './login';
 
 momentLocalizer(Moment);
 
@@ -17,6 +18,7 @@ const Events = React.createClass ({
 			date: null,
 			modal: false,
 			events: [],
+			logIn: false,
 		}
 	},
 
@@ -47,9 +49,15 @@ const Events = React.createClass ({
 	},
 
 	handleAdd() {
-		this.setState({
-			modal: true,
-		})
+		if(session.hasUser()) {
+			this.setState({
+				modal: true,
+			})
+		} else {
+			this.setState({
+				logIn: true,
+			})
+		}
 	},
 
 
@@ -64,6 +72,7 @@ const Events = React.createClass ({
 			this.setState({
 				events: upcoming,
 				modal: false,
+				logIn: false,
 			})
 		}
 		if(this.state.datePicked) {
@@ -74,8 +83,16 @@ const Events = React.createClass ({
 			this.setState({
 				modal: false,
 				events: selected,
+				logIn: false,
 			})
 		}
+	},
+
+	onLogin() {
+		this.setState({
+			logIn: false,
+		})
+		this.props.onSubmit();
 	},
 
 	render() {
@@ -105,17 +122,22 @@ const Events = React.createClass ({
 						})}
 					</div>}
 
-				{this.state.modal && 
-					<Modal show={this.state.modal}>
-						<Modal.Header closeButton onHide={this.close}>
-							<h1>Create an event</h1>
-						</Modal.Header>
-						<Modal.Body>
-							<CreateEventForm date={this.state.date} onSubmit={this.close}/>
-						</Modal.Body>
-					</Modal>}
+				<Modal show={this.state.modal}>
+					<Modal.Header closeButton onHide={this.close}>
+						<h1>Create an event</h1>
+					</Modal.Header>
+					<Modal.Body>
+						<CreateEventForm date={this.state.date} onSubmit={this.close}/>
+					</Modal.Body>
+				</Modal>
 
 				<Glyphicon glyph='plus-sign' className='events-add' onClick={this.handleAdd} />
+
+				<Modal show={this.state.logIn} onHide={this.close} className='login-modal'>
+					<Modal.Body modalClassName='login-modal-body'>
+						<Login onLogin={this.onLogin}/>
+					</Modal.Body>
+				</Modal>
 
 			</div>
 			)

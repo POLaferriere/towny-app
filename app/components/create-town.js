@@ -50,6 +50,12 @@ const CreateTown = React.createClass({
 		this.history.pushState({}, '/town/' + townId);
 	},
 
+	repick() {
+		this.setState({
+			pickingTown: true,
+		})
+	},
+
 	create() {
 		let name = this.state.selectedTown;
 		let location = this.state.selectedLoc;
@@ -77,20 +83,34 @@ const CreateTown = React.createClass({
 		return (
 			<div className="create-town-container">
 				{this.state.pickingTown &&
-					<Geosuggest placeholder='Find your town' onSuggestSelect={this.handleSelect} />
+					<Geosuggest 
+						placeholder='Find your town' 
+						onSuggestSelect={this.handleSelect}
+						className='create-town-geosuggest'/>
 				}
 				{!this.state.pickingTown && 
-					<div>
-						<h4>{'Your town is ' + this.state.selectedTown}</h4>
+					<div className='create-town-picked'>
+						<h2>{'Your town is ' + this.state.selectedTown}</h2>
 						{this.state.townExists &&
 							<div>
 								<h1>Your town has already been established</h1>
-								<Button onClick={this.goToExistingTown}>Go to your town</Button>
+								<Button 
+									className='create-town-button' 
+									onClick={this.goToExistingTown}
+									bsSize='lg'>
+									Go to your town
+								</Button>
+								<p>Not your town? <span className='create-town-repick' onClick={this.repick}>Click here to search again</span></p>
 							</div>}
 						{!this.state.townExists && 
 							<div>
-								<Button onClick={this.create}>Create your town</Button>
-								<p>Not your town? <span>Click here to search again</span></p>
+								<Button 
+									className='create-town-button' 
+									onClick={this.create}
+									bsSize='lg'>
+									Create your town
+								</Button>
+								<p>Not your town? <span className='create-town-repick' onClick={this.repick}>Click here to search again</span></p>
 							</div>}
 					</div>}
 			</div>

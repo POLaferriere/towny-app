@@ -88,6 +88,17 @@ body {
 	font-size: 2rem;	
 }
 
+.splash-town-enter {
+	transform: translatey(100px);
+	opacity: 0;
+}
+
+.splash-town-enter.splash-town-enter-active {
+	transform: translatey(0);
+	opacity: 1;
+	transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 //--------------App Header----------------//
 .left-nav-links {
 	width: 45%;
@@ -284,16 +295,29 @@ body {
 	.trivia-quote-sub-header-comments {
 		float: left;
 		cursor: pointer;
+		transition: color 0.3s ease-in-out;
 		.comment-length {
 			margin: 0 5px;
+		}
+		&:hover {
+			color: $highlight;
+			transition: color 0.3s ease-in-out;
 		}
 	}
 	.trivia-quote-sub-header-likes {
 		float: left;
 		cursor: pointer;
 		margin-left: 20px;
+		transition: color 0.3s ease-in-out;
+		&.liked {
+			color: $highlight;
+		}
 		.likes {
 			margin: 0 5px;
+		}
+		&:hover {
+			color: $highlight;
+			transition: color 0.3s ease-in-out;
 		}
 	}
 }
@@ -316,6 +340,7 @@ body {
 }
 
 .trivia-quote-comment-reply {
+	display: inline;
 	color: $highlight;
 	cursor: pointer;
 }
@@ -487,6 +512,9 @@ body {
 		float: left;
 		cursor: pointer;
 		transition: color 0.3s ease-in-out;
+		&.liked {
+			color: $highlight;
+		}
 		&:hover {
 			color: $highlight;
 			transition: color 0.3s ease-in-out;
@@ -555,6 +583,19 @@ body {
 
 .warning-modal-buttons {
 	text-align: center;
+}
+
+.carousel-modal-comment {
+	text-align: left;
+}
+
+.carousel-modal-click {
+	float: left;
+	margin-top: 10px;
+	display: inline-block;
+	text-align: left;
+	color: $highlight2;
+	cursor: pointer;
 }
 
 //-------------------Events------------------//
@@ -722,6 +763,155 @@ body {
 .no-town-container{
 	@include outer-container();
 	text-align: center;	
+}
+
+//-----------------Create Town---------------//
+.create-town-container {
+	@include outer-container();
+	text-align: center;
+	.geosuggest {
+		margin-top: 100px;
+		width: 100%;
+		.geosuggest__input {
+			width: 50%;
+			font-size: 2rem;
+		}
+		.geosuggest__suggests {
+			margin: 0 auto;
+			width: 50%;
+			list-style: none;
+			text-align: left;
+			padding: 0;
+			background: white;
+			.geosuggest-item {
+				padding-left: 40px;
+				cursor: default;
+				&:hover {
+					color: white;
+					background: $highlight2;
+				}
+			}
+		}
+	}
+}
+
+.create-town-picked {
+	margin-top: 100px;
+}
+
+.create-town-repick {
+	color: $highlight2;
+	cursor: pointer;
+}
+
+.create-town-button {
+	margin: 20px 0;
+	background: $highlight;
+	color: white;
+	&:hover {
+		background: $light-highlight;
+		color: white;
+		border: 1px solid $very-light-grey;
+	}
+}
+
+//-----------------Login-------------------//
+.login-modal {
+	margin-top: 25%;
+	.modal-content {
+		background: $dark-grey;
+	}
+}
+
+.login-container {
+	text-align: center;
+
+	.login-title {
+		color: white;
+	}
+
+	> * {
+		text-align: center;
+	}
+}
+
+.login-container-inputs {
+	margin-top: 20px;
+	font-size: 2rem;
+	> * {
+		text-align: center;
+	}
+}
+.login-button {
+	display: block;
+	margin: 20px auto;
+	background: $highlight;
+	color: white;
+	border: 1px solid $dark-grey;
+	&:hover {
+		background: $light-highlight;
+		color: white;
+		border: 1px solid $dark-grey;
+	}
+}
+
+.login-signup {
+	color: white;
+	font-size: 1.4rem;
+	.link {
+		color: $highlight2;
+		cursor: pointer;
+	}
+}
+
+.fade.in.popover.bottom {
+	background: $dark-grey;
+	.arrow::after {
+		border-bottom-color: $dark-grey;
+	}
+}
+
+//----------------Signup--------------------//
+.signup-container {
+	@include outer-container();
+	margin-top: 100px;
+	h1 {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+}
+
+.signup-inputs {
+	@include span-columns(7);
+	@include shift(2.5);
+	input {
+		@include span-columns(3.5 of 7);
+		font-size: 2rem;
+		text-align: center;
+		&:nth-child(2n) {
+			@include omega();
+		}
+	}
+}
+.button-container {
+	@include span-columns(12);
+}
+
+.signup-button {
+	display: block;
+	margin: 20px auto;
+	background: $highlight;
+	border: 1px solid $very-light-grey;
+	&:hover {
+		background: $light-highlight;
+		border: 1px solid $very-light-grey;
+	}
+}
+
+.signup-error {
+	color: red;
+	text-align: center;
+	margin-top: 10px;
 }
 //------------------Footer------------------//
 .footer {

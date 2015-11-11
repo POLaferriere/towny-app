@@ -6,6 +6,7 @@ import Loading from 'react-loading';
 import {Button, ButtonGroup} from 'react-bootstrap';
 import functions from '../functions'
 import $ from 'jquery';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 const Splash = React.createClass({
 	propTypes: {
@@ -83,26 +84,29 @@ const Splash = React.createClass({
 
 	render() {
 		let isLoading = this.state.isLoading;
+
 		return (
 			<div className='intro-splash'>
 				<div className='splash-container'>
 					<h1>Town(y)</h1>
-					{this.props.townsLoaded && 
-						<div>
-							<p>What's your hometown?</p>
-							<ButtonGroup className="login-buttons">
-								<Button 
-									className='get-hometown'
-									bsStyle='primary' 
-									disabled={isLoading} 
-									onClick={this.handleUseCurrentLoc}>
-									{isLoading ? 'Getting location...' : 'Use current location'}
-								</Button>
-								<Button className='user-hometown' onClick={this.handleUseUserLoc}>Go to your Hometown</Button>
-							</ButtonGroup>
-							<p>or</p>
-							<Geosuggest className='splash-geosuggest' onSuggestSelect={this.handleSuggestSelect} placeholder='Find your town'></Geosuggest>
-						</div>}
+					<ReactCSSTransitionGroup transitionName='splash-town' transitionEnterTimeout={1000}>
+						{this.props.townsLoaded && 
+							<div>
+								<p>What's your hometown?</p>
+								<ButtonGroup className="login-buttons">
+									<Button 
+										className='get-hometown'
+										bsStyle='primary' 
+										disabled={isLoading} 
+										onClick={this.handleUseCurrentLoc}>
+										{isLoading ? 'Getting location...' : 'Use current location'}
+									</Button>
+									{session.hasUser() && <Button className='user-hometown' onClick={this.handleUseUserLoc}>Go to your Hometown</Button>}
+								</ButtonGroup>
+								<p>or</p>
+								<Geosuggest className='splash-geosuggest' onSuggestSelect={this.handleSuggestSelect} placeholder='Find your town'></Geosuggest>
+							</div>}
+					</ReactCSSTransitionGroup>
 				</div>
 			</div>
 		)

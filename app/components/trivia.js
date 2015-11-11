@@ -5,14 +5,20 @@ import { History } from 'react-router';
 import TriviaQuote from './trivia-quote';
 import {Glyphicon, Modal} from 'react-bootstrap';
 import AddTrivia from './add-trivia'
+import Login from './login'
 
 const Trivia = React.createClass({
+	propTypes: {
+		onSubmit: React.PropTypes.func,
+	},
+
 	mixins: [History],
 
 	getInitialState() {
 		return {
 			triviaQuotes: [],
 			addingTrivia: false,
+			logIn: false,
 			trivia: store.getTriviaCollection(session.getTownId())
 		}
 	},
@@ -23,9 +29,15 @@ const Trivia = React.createClass({
 
 	handleAdd(e) {
 		e.preventDefault();
-		this.setState({
-			addingTrivia: true,
-		})
+		if(session.hasUser()) {
+			this.setState({
+				addingTrivia: true,
+			})
+		} else {
+			this.setState({
+				logIn: true,
+			});
+		}
 	},
 
 //TODO make new posts go to the top
@@ -41,12 +53,19 @@ const Trivia = React.createClass({
 	close() {
 		this.setState({
 			addingTrivia: false,
+			logIn: false,
 		})
+	},
+
+	onLogin() {
+		this.setState({
+			logIn: false,
+		})
+		this.props.onSubmit();
 	},
 
 	render() {
 		let triviaQuotes = this.state.trivia.sortBy('likes').reverse() || {};
-		console.log(triviaQuotes)
 
 		return (
 			<div className='trivia-container'>
@@ -54,6 +73,12 @@ const Trivia = React.createClass({
 				<Modal show={this.state.addingTrivia} onHide={this.close} className='trivia-container-modal'>
 					<Modal.Body modalClassName='trivia-add-modal'>
 						<AddTrivia onSubmit={this.handleSubmit} onSubmit={this.onChange} />
+					</Modal.Body>
+				</Modal>
+
+				<Modal show={this.state.logIn} onHide={this.close} className='login-modal'>
+					<Modal.Body modalClassName='login-modal-body'>
+						<Login onLogin={this.onLogin}/>
 					</Modal.Body>
 				</Modal>
 

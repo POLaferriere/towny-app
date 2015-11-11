@@ -6,8 +6,10 @@ import moment from 'moment';
 import CommentForm from './comment-form';
 import store from '../store';
 import TriviaComments from './trivia-comments';
-import {Glyphicon} from 'react-bootstrap';
+import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import AddTrivia from './add-trivia';
+
+const likeTooltip = (<Tooltip>You must be logged in to like</Tooltip>);
 
 const TriviaQuote = React.createClass({
 	propTypes: {
@@ -62,8 +64,21 @@ const TriviaQuote = React.createClass({
 
 	like() {
 		let trivia = this.props.model;
-		trivia.set('likes', trivia.get('likes')+1);
-		trivia.save().then(() => {this.forceUpdate()})
+		let collection = store.getTriviaCollection(session.getTownId());
+		let likes = _.map(trivia.get('likes'), (like) =>{
+			return JSON.parse(like)
+		});
+		if(!_.any(likes, (like) => {
+			return like.objectId == session.getUserId()
+		})) {
+			trivia.get('likes').push(JSON.stringify({	
+				__type: "Pointer",
+				class: "User",
+				objectId: session.getUserId(),
+			}))
+			collection.set(trivia);
+			collection.sync('update', trivia).then(() => this.forceUpdate());
+		}
 	},
 
 	onChange() {
@@ -84,10 +99,13 @@ const TriviaQuote = React.createClass({
 		let triviaId = this.props.model.get('objectId');
 		let commentLength = this.state.comments.length;
 		let comments = this.state.comments
-		let likes = this.props.model.get('likes');
+		let likes = this.props.model.get('likes').length || 0;
 		let creator = this.props.model.get('creator') || {};
-		console.log(this.props.model)
-		
+		let likesArray = _.map(this.props.model.get('likes'), (like) => {
+			return JSON.parse(like)
+		});
+
+
 		//TODO add code for when there are no comments
 		return(
 			<li className='trivia-quote'>
@@ -101,19 +119,27 @@ const TriviaQuote = React.createClass({
 						<span className='comment-length'>{commentLength}</span>
 						Comments
 					</Glyphicon>
-					<Glyphicon 
-						glyph='thumbs-up' 
-						className='trivia-quote-sub-header-likes' 
-						onClick={this.like}>
-						<span className='likes'>{likes}</span>
-					</Glyphicon>
+					{!session.hasUser() && <OverlayTrigger placement='bottom' overlay={likeTooltip}>
+						<Glyphicon 
+							glyph='thumbs-up' 
+							className='trivia-quote-sub-header-likes'>
+							<span className='likes'>{likes}</span>
+						</Glyphicon>
+					</OverlayTrigger>}
+					{session.hasUser() && 
+						<Glyphicon 
+							glyph='thumbs-up' 
+							className={'trivia-quote-sub-header-likes ' + (_.any(likesArray, (like) => {return like.objectId == session.getUserId()}) && 'liked')} 
+							onClick={this.like}>
+							<span className='likes'>{likes}</span>
+						</Glyphicon>}
 					
-					<p className='trivia-quote-date'>{moment(created, moment.ISO_8601).fromNow()}</p>
+					<p className='trivia-quote-date'>{moment(created, moment.ISO_8601).fromNow() + ' by ' + creator.username}</p>
 				</div>
 
 				{this.state.seeComments && <TriviaComments comments={comments} triviaId={triviaId} onChange={this.onChange}/>}
 
-				{creator.objectId == session.getUserId() && <div className="triva-quote-edit-buttons">
+				{creator.objectId == (session.hasUser() && session.getUserId()) && <div className="triva-quote-edit-buttons">
 					<Glyphicon glyph='remove' className='trivia-quote-remove' onClick={this.handleDelete} />
 					<Glyphicon glyph='pencil' className='trivia-quote-edit' onClick={this.handleEdit} />
 				</div>}
