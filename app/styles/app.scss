@@ -34,6 +34,16 @@ body {
 	color: $splash-text;
 }
 
+.splash-background {
+	position: absolute;
+	&.left {
+		left: 75%;
+	}
+	&.right {
+		right: 75%;
+	}
+}
+
 .splash-container {
 	@include size(50% 300px);
 	position: absolute;
@@ -43,8 +53,8 @@ body {
 	text-align: center;
 	font-size: 2rem;
 	h1 {
+		position: relative;
 		font-family: 'Quattrocento Sans', sans-serif;
-		text-transform: uppercase;
 		color: $splash-text;
 		font-size: 6rem;
 		margin-bottom: 150px;
@@ -96,9 +106,26 @@ body {
 .splash-town-enter.splash-town-enter-active {
 	transform: translatey(0);
 	opacity: 1;
-	transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
 }
 
+.splash-title-appear {
+	opacity: 0;
+}
+
+.splash-title-appear.splash-title-appear-active {
+	opacity: 1;
+	transition: opacity 1s ease-in-out;
+}
+
+.splash-background-appear {
+	width: 0;
+}
+
+.splash-background-appear.splash-background-active {
+	width: 1000px;
+	transition: all 1s ease-in 1s;
+}
 //--------------App Header----------------//
 .left-nav-links {
 	width: 45%;
@@ -203,7 +230,8 @@ body {
 .town-header-hometown {
 	position: absolute;
 	right: 20px;
-	bottom: -50px;
+	bottom: -25px;
+	background: white;
 	color: $highlight2;
 	padding: 3px;
 	border-radius: 3px;
@@ -219,18 +247,39 @@ body {
 
 .side-nav {
 	@include span-columns(3);
+	margin-top: 50px;
 	float: left;
 	a {
 		margin-left: 10px;
 		color: $highlight2;
 		font-size: 2rem;
+		text-align: right;
 		&:hover {
 			background-color: $highlight2;
 			color: $light-highlight2;
 		}
 	}
 }
+//----------------Town Landing----------------//
+.landing-container {
+	@include span-columns(9);
+	background: white;
+	padding: 30px;
+}
 
+.landing-title {
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.landing-carousel {
+	@include span-columns(7 of 9);
+	@include shift(1);	
+}
+
+.landing-carousel-image {
+	width: 100%;
+}
 //----------------Trivia-----------------//
 .trivia-container {
 	@include span-columns(9);
@@ -688,13 +737,6 @@ body {
 	}
 }
 
-.event-page-back {
-	@include span-columns(9 of 9);
-	margin-top: 50px;
-	color: $highlight2;
-	cursor: pointer;
-}
-
 
 .event-page-edit {
 	margin-left: 20px;
@@ -717,8 +759,51 @@ body {
 	}
 }
 
+.event-page-footer {
+	@include clearfix();
+	.event-page-footer-likes,
+	.event-page-footer-comments {
+		float: right;
+		margin: 50px 20px 0;
+		font-size: 1.5rem;
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+		&.liked {
+			color: $highlight2;
+		}
+		&:hover {
+			color: $highlight2;
+			transition: all 0.3s ease-in-out;
+		}
+		.likes, .comment-length {
+			position: relative;
+			top: -2px;
+			margin-left: 10px;
+		}
+	}
+}
+
+.event-page-back {
+	float: left;
+	margin-top: 50px;
+	color: $highlight2;
+	cursor: pointer;
+}
+
 .event-page-backarrow {
 	margin-right: 5px;
+}
+
+.event-page-comments {
+	list-style: none;
+}
+
+.event-comment-form {
+	width: 100%;
+	.event-comment-input {
+		margin-top: 30px;
+		width: 100%;
+	}
 }
 
 //-------------Create Event Form-------------//
@@ -869,6 +954,11 @@ body {
 	.arrow::after {
 		border-bottom-color: $dark-grey;
 	}
+}
+
+.login-error {
+	color: red;
+	font-size: 1.4rem;
 }
 
 //----------------Signup--------------------//

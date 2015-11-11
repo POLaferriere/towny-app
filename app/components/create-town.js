@@ -47,7 +47,7 @@ const CreateTown = React.createClass({
 		let towns = this.props.towns;
 		let townId = towns.findWhere({name: this.state.selectedTown}).get('objectId');
 		session.setTown(store.getTown(townId));
-		this.history.pushState({}, '/town/' + townId);
+		this.history.pushState({}, '/town/' + townId + '/landing');
 	},
 
 	repick() {
@@ -74,7 +74,7 @@ const CreateTown = React.createClass({
 			let townId = results.objectId
 			this.props.towns.fetch().then(() => {
 				session.setTown(store.getTown(townId));
-				this.history.pushState({}, '/town/' + townId)
+				this.history.pushState({}, '/town/' + townId + '/landing')
 			})
 		})
 	},

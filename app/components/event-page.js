@@ -1,13 +1,16 @@
 import React from 'react';
 import store from '../store';
 import moment from 'moment';
-import {Glyphicon, Button} from 'react-bootstrap';
+import {Glyphicon, Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {History} from 'react-router';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import $ from 'jquery';
+import _ from 'underscore';
 
 momentLocalizer(moment);
+
+const likeTooltip = (<Tooltip>You must be logged in to like</Tooltip>);
 
 
 const EventPage = React.createClass({
@@ -21,7 +24,18 @@ const EventPage = React.createClass({
 			date: null,
 			description: '',
 			url: '',
+			comments: store.getEventComments(this.props.params.eventId),
+			seeComments: false,
+			commentInput: ''
 		}
+	},
+
+	componentWillMount() {
+		this.state.comments.fetch().then(() => {
+			this.setState({
+				comments: this.state.comments,
+			})
+		})
 	},
 
 	mixins: [History],
@@ -116,8 +130,56 @@ const EventPage = React.createClass({
 		})
 	},
 
+	seeComments() {
+		this.setState({
+			seeComments: true,
+		})
+	},
+
+	like(event) {
+		let collection = store.getEventsCollection(session.getTownId());
+		let likes = _.map(event.get('likes'), (like) =>{
+			return JSON.parse(like)
+		});
+		if(!_.any(likes, (like) => {
+			return like.objectId == session.getUserId()
+		})) {
+			event.get('likes').push(JSON.stringify({	
+				__type: "Pointer",
+				class: "User",
+				objectId: session.getUserId(),
+			}))
+			collection.set(event);
+			collection.sync('update', event).then(() => this.forceUpdate());
+		}
+	},
+
+	handleCommentChange(e) {
+		this.setState({
+			commentInput: e.target.value,
+		})
+	},
+
+	submitComment(event, e) {
+		e.preventDefault();	
+		store.commentOnEvent(event.objectId, this.state.commentInput);
+		this.state.comments.fetch().then(() => {
+			this.setState({
+				comments: this.state.comments,
+				commentInput: '',
+			})
+		})
+	},
+
 	render() {
 		let event = this.state.event.toJSON();
+		let comments = this.state.comments;
+		let commentLength = this.state.comments.length
+		let likesArray = _.map(event.likes, (like) =>{
+			return JSON.parse(like)
+		});
+
+		console.log(comments);
 
 		return(
 			<div className='event-page'>
@@ -185,10 +247,47 @@ const EventPage = React.createClass({
 								onChange={this.handleEdit.bind(this, 'url')}/>
 						</form>}
 				</div>
-				<p className="event-page-back" onClick={this.goBack}>
-					<Glyphicon glyph='arrow-left' className='event-page-backarrow' />
-					Go back to events
-				</p>
+				<div className="event-page-footer">
+					<p className="event-page-back" onClick={this.goBack}>
+						<Glyphicon glyph='arrow-left' className='event-page-backarrow' />
+						Go back to events
+					</p>
+					{!session.hasUser() && <OverlayTrigger placement='bottom' overlay={likeTooltip}>
+						<Glyphicon 
+							glyph='thumbs-up' 
+							className='event-page-footer-likes'>
+							<span className='likes'>{event.likes.length}</span>
+						</Glyphicon>
+					</OverlayTrigger>}
+					{session.hasUser() && 
+						<Glyphicon 
+							glyph='thumbs-up' 
+							className={'event-page-footer-likes ' + (_.any(likesArray, (like) => {return like.objectId == session.getUserId()}) && 'liked')} 
+							onClick={this.like.bind(this, this.state.event)}>
+							<span className='likes'>{event.likes.length}</span>
+						</Glyphicon>}
+						<Glyphicon 
+						glyph='comment' 
+						className='event-page-footer-comments' 
+						onClick={this.seeComments}>
+						<span className='comment-length'>{commentLength}</span>
+					</Glyphicon>
+				</div>
+				{this.state.seeComments &&
+					<ul className="event-page-comments">
+						{comments.map((comment) => {
+							return <li>{comment.get('text')}</li>
+						})}
+						{session.hasUser() && 
+							<form className='event-comment-form' onSubmit={this.submitComment.bind(this, event)}>
+								<input 
+									type="text" 
+									className='event-comment-input' 
+									placeholder='Comment on this event'
+									value={this.state.commentInput}
+									onChange={this.handleCommentChange}/>
+							</form>}
+					</ul>}
 			</div>
 		)
 	}

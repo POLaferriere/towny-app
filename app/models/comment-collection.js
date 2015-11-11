@@ -20,6 +20,14 @@ const CommentCollection = Backbone.Collection.extend({
 					objectId: this.pictureId,
 				},
 			})
+		} else if (this.eventId) {
+			return "https://api.parse.com/1/classes/Comment?include=comment_on&where=" + JSON.stringify({
+				comment_on: {
+					__type: 'Pointer',
+					className: 'Trivia',
+					objectId: this.eventId,
+				},
+			})
 		} else {
 			return 'https://api.parse.com/1/classes/Comment'
 		}
@@ -28,6 +36,7 @@ const CommentCollection = Backbone.Collection.extend({
 		this.triviaId = options && options.triviaId
 		this.userId = options && options.userId
 		this.pictureId = options && options.pictureId
+		this.eventId = options && options.eventId
 	},
 
 	parse(response) {

@@ -121,5 +121,19 @@ export default {
 
   getEvent(townId, eventId) {
     return eventsCache[townId].get(eventId);
-  }
+  },
+
+  getEventComments(id) {
+    let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {eventId: id}));
+    commentsCache[id] = comments;
+    return comments; 
+  },
+
+  commentOnEvent(id, comment) {
+    let comments = (commentsCache[id] = commentsCache[id] || new CommentCollection(null, {eventId: id}));
+    comments.create({
+      text: comment,
+      comment_on: {objectId: id},
+    })
+  },
 }

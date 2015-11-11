@@ -87,9 +87,16 @@ const Splash = React.createClass({
 
 		return (
 			<div className='intro-splash'>
+
 				<div className='splash-container'>
-					<h1>Town(y)</h1>
-					<ReactCSSTransitionGroup transitionName='splash-town' transitionEnterTimeout={1000}>
+					<ReactCSSTransitionGroup transitionName='splash-title'  transitionAppear={true} transitionAppearTimeout={5000}>
+						<h1>
+							Town(y)
+							<img className='splash-background left' src={require("../assets/city-background.png")} alt=""/>
+							<img className='splash-background right' src={require("../assets/city-background.png")} alt=""/>
+						</h1>
+					</ReactCSSTransitionGroup>
+					<ReactCSSTransitionGroup transitionName='splash-town' transitionEnterTimeout={2000}>
 						{this.props.townsLoaded && 
 							<div>
 								<p>What's your hometown?</p>

@@ -33,7 +33,7 @@ var App = React.createClass({
 
   handleLocationSet() {
     let townId = session.getTownId();
-    this.history.pushState({}, '/town/' + townId)
+    this.history.pushState({}, '/town/' + townId + '/landing')
     this.setState({
       splashUp: false,
     })
@@ -69,7 +69,7 @@ var App = React.createClass({
     let towns = store.getTownCollection();
     let townId = towns.findWhere({name: town}).get('objectId');
     session.setTown(store.getTown(townId));
-    this.history.pushState({}, '/town/' + townId);
+    this.history.pushState({}, '/town/' + townId + '/landing');
     this.setState({
       searchInput: ''
     })
@@ -89,7 +89,7 @@ var App = React.createClass({
     let townId = session.getTownId();
     let hometown = store.getTownCollection().get(townId);
     session.setTown(hometown);
-    this.history.pushState({}, '/town/' + townId)
+    this.history.pushState({}, '/town/' + townId + '/landing')
     this.setState({
       splashUp: false,
     })

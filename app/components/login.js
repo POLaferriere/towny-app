@@ -19,7 +19,7 @@ const Login = React.createClass({
 	},
 
 	handleSubmit(e) {
-		e.preventDefault()
+		e.preventDefault();
 		let username = this.refs.username.value;
 		let password = this.refs.password.value;
 		let session = store.getSession();
@@ -39,7 +39,7 @@ const Login = React.createClass({
 				<div className="login-container-inputs">
 					<input type="text" placeholder='email' ref='username'/>
 					<input type="password" placeholder='password' ref='password'/>
-					{this.state.error && (<p>Incorrect username or password</p>)}
+					{this.state.error && (<p className='login-error'>Incorrect username or password</p>)}
 					<Button className='login-button' bsSize='lg' onClick={this.handleSubmit}>Submit</Button>
 					<p className='login-signup'>Not a member? <span className='link' onClick={this.goToSignup}>Click here to sign up</span></p>
 				</div>
