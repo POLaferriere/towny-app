@@ -276,7 +276,7 @@ const EventPage = React.createClass({
 				{this.state.seeComments &&
 					<ul className="event-page-comments">
 						{comments.map((comment) => {
-							return <li>{comment.get('text')}</li>
+							return <li className='event-page-comment'>{comment.get('text')}</li>
 						})}
 						{session.hasUser() && 
 							<form className='event-comment-form' onSubmit={this.submitComment.bind(this, event)}>

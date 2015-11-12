@@ -5,7 +5,7 @@ var Trivia = Backbone.Model.extend({
 	defaults: {
 		body: '',
 		location: {},
-    likes: 0,
+    likes: [],
 	},
 	idAttribute: 'objectId',
 	urlRoot: 'https://api.parse.com/1/classes/Trivia',
@@ -22,7 +22,7 @@ var Trivia = Backbone.Model.extend({
         creator: {
           "__type": "Pointer",
           "className": "_User",
-          "objectId": this.get('creator').objectId
+          "objectId": this.get('user').objectId
         }
       });
     } else {

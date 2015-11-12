@@ -44,6 +44,7 @@ const CreateEventForm = React.createClass({
 		}
 		store.newEvent(session.getTownId(), session.getUserId(), event)
 		this.props.onSubmit();
+		
 	},
 
 	render() {

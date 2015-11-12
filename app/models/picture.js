@@ -4,6 +4,11 @@ import _ from 'underscore';
 const Picture = Backbone.Model.extend({
 	idAttribute: 'objectId',
 	urlRoot: 'https://api.parse.com/1/classes/Picture',
+  defaults: {
+    likes: [],
+    caption: '',
+    url: '',
+  },
 
 	toJSON(options) {
     if(options) {
@@ -17,7 +22,7 @@ const Picture = Backbone.Model.extend({
         creator: {
           "__type": "Pointer",
           "className": "_User",
-          "objectId": this.get('creator').objectId
+          "objectId": this.get('user').objectId
         }
       });
     } else {

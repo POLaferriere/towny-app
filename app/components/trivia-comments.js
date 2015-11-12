@@ -9,6 +9,7 @@ const TriviaComments = React.createClass({
 	propTypes: {
 		comments: React.PropTypes.object.isRequired,
 		triviaId: React.PropTypes.string.isRequired,
+		creator: React.PropTypes.object.isRequired,
 		onChange: React.PropTypes.func,
 	},
 
@@ -52,11 +53,13 @@ const TriviaComments = React.createClass({
 				{this.props.comments.map((comment) => {
 					return (
 					<TriviaComment 
+						comment={comment}
 						text={comment.get('text')} 
 						triviaId={triviaId} 
 						onReply={this.setCommenting} 
 						onRemove={this.onRemove}
 						commentId={comment.get('objectId')} 
+						creator={this.props.creator}
 						key={comment.get('objectId')}/>)}
 				)}
 				{this.state.commenting && (<CommentForm triviaId={triviaId} onComment={this.onComment}/>)}

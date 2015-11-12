@@ -137,7 +137,7 @@ const TriviaQuote = React.createClass({
 					<p className='trivia-quote-date'>{moment(created, moment.ISO_8601).fromNow() + ' by ' + creator.username}</p>
 				</div>
 
-				{this.state.seeComments && <TriviaComments comments={comments} triviaId={triviaId} onChange={this.onChange}/>}
+				{this.state.seeComments && <TriviaComments comments={comments} triviaId={triviaId} creator={creator} onChange={this.onChange}/>}
 
 				{creator.objectId == (session.hasUser() && session.getUserId()) && <div className="triva-quote-edit-buttons">
 					<Glyphicon glyph='remove' className='trivia-quote-remove' onClick={this.handleDelete} />

@@ -6,6 +6,7 @@
 @import url(https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,700);
 
 $dark-grey: #333;
+$less-dark-grey: #444;
 $grey: #aaa;
 $very-light-grey: #eee;
 
@@ -106,7 +107,7 @@ body {
 .splash-town-enter.splash-town-enter-active {
 	transform: translatey(0);
 	opacity: 1;
-	transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s;
+	transition: all 1s ease-out 1s;
 }
 
 .splash-title-appear {
@@ -302,7 +303,7 @@ body {
 	@include span-columns(6 of 9);
 	position: relative;
 	list-style: none;
-	background: $dark-grey;
+	background: $less-dark-grey;
 	color: $splash-text;
 	margin: 10px 0;
 	padding: 25px 10px 10px;
@@ -373,6 +374,8 @@ body {
 
 .trivia-quote-comments {
 	list-style: none;
+	background: $dark-grey;
+	padding: 10px 0 10px 20px;
 }
 
 .trivia-quote-comments-first {
@@ -382,16 +385,23 @@ body {
 
 .trivia-quote-comment {
 	position: relative;
+	margin-top: 10px;
 	&:hover .trivia-quote-comment-remove {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
+	}
+	&:hover .trivia-quote-comment-reply {
 		opacity: 1;
 		transition: opacity 0.3s ease-in-out;
 	}
 }
 
 .trivia-quote-comment-reply {
-	display: inline;
+	display: inline-block;
 	color: $highlight;
 	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
 }
 
 .trivia-quote-comment-remove {
@@ -401,6 +411,15 @@ body {
 	transition: opacity 0.3s ease-in-out;
 }
 
+.trivia-quote-comment-by,
+.trivia-quote-comment-time {
+	display: inline-block;
+	float: right;
+	margin: 0 3px;
+	color: $grey;
+	font-size: 1.2rem;
+}
+
 .trivia-add-modal {
 	@include clearfix();
 	padding: 50px;
@@ -408,12 +427,13 @@ body {
 	.add-trivia {
 		width: 100%;
 		margin: 0;
-		h1 {
-			text-align: center;
-		}
 		> * {
 			display: block;
 			margin: 0 auto;
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 20px;
 		}
 		.add-trivia-input {
 			resize: none;
@@ -433,12 +453,12 @@ body {
 .add-trivia {
 	@include span-columns(6 of 9);
 	position: relative;
-	margin-left: 40px;
 }
 
 .add-trivia-input {
 	width: 94%;
 	color: black;
+	margin-top: 20px;
 	margin-bottom: 5px;
 }
 
@@ -679,6 +699,7 @@ body {
 .event-container-title {
 	float: left;
 	margin: 10px 0;
+	font-size: 2rem;
 }
 
 .event-container-date {
@@ -796,6 +817,10 @@ body {
 
 .event-page-comments {
 	list-style: none;
+}
+
+.event-page-comment {
+	margin: 10px 0;
 }
 
 .event-comment-form {

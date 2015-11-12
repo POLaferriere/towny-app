@@ -85,11 +85,17 @@ var App = React.createClass({
     $('.nav-search-results').removeClass('hidden');
   },
 
+  goToTown() {
+    this.history.pushState({}, '/town/' + session.getTownId() + '/landing')
+    this.setState({
+      splashUp: false,
+    })
+  },
+
   goToHometown() {
-    let townId = session.getTownId();
-    let hometown = store.getTownCollection().get(townId);
-    session.setTown(hometown);
-    this.history.pushState({}, '/town/' + townId + '/landing')
+    let hometown = session.getUser().get('hometown').objectId;
+    session.setTown(store.getTown(hometown));
+    this.history.pushState({}, '/town/' + hometown + '/landing')
     this.setState({
       splashUp: false,
     })
@@ -125,12 +131,12 @@ var App = React.createClass({
           <Splash 
             townsLoaded={this.state.townsLoaded} 
             onSetLocation={this.handleLocationSet} 
-            onSetTown={this.goToHometown}
+            onSetTown={this.goToTown}
             onNoTown={this.goToNoTown} />}
         {!this.state.splashUp && 
           (<div>
             <Navbar inverse>
-              <NavBrand><a href="/">Towny</a></NavBrand>
+              <NavBrand><a href="/">Town(y)</a></NavBrand>
               <Nav navbar ulClassName='left-nav-links'>
                 <NavItem linkId='search-bar'>
                   <Typeahead 

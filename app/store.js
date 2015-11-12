@@ -102,15 +102,15 @@ export default {
   },
 
   newEvent(townId, userId, event) {
-    let events = (eventsCache[id] = eventsCache[id] || new EventCollection({townId: id}))
-    events.create({
+    let events = (eventsCache[townId] = eventsCache[townId] || new EventCollection({townId: townId}))
+    return (events.create({
       title: event.title,
       description: event.description,
       url: event.url,
       date: {"__type": "Date", "iso": event.date},
       town: {objectId: townId},
       creator: {objectId: userId}
-    })
+    }))
   },
   
   getEventsCollection(id) {

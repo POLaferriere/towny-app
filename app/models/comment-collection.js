@@ -5,7 +5,7 @@ const CommentCollection = Backbone.Collection.extend({
 	model: Comment,
 	url() {
 		if(this.triviaId){
-			return "https://api.parse.com/1/classes/Comment?include=comment_on&where=" + JSON.stringify({
+			return "https://api.parse.com/1/classes/Comment?include=comment_on,comment_by&where=" + JSON.stringify({
 				comment_on: {
 					__type: 'Pointer',
 					className: 'Trivia',
@@ -13,7 +13,7 @@ const CommentCollection = Backbone.Collection.extend({
 				},
 			})
 		} else if (this.pictureId) {
-			return "https://api.parse.com/1/classes/Comment?include=comment_on&where=" + JSON.stringify({
+			return "https://api.parse.com/1/classes/Comment?include=comment_on,comment_by&where=" + JSON.stringify({
 				comment_on: {
 					__type: 'Pointer',
 					className: 'Trivia',
@@ -21,7 +21,7 @@ const CommentCollection = Backbone.Collection.extend({
 				},
 			})
 		} else if (this.eventId) {
-			return "https://api.parse.com/1/classes/Comment?include=comment_on&where=" + JSON.stringify({
+			return "https://api.parse.com/1/classes/Comment?include=comment_on,comment_by&where=" + JSON.stringify({
 				comment_on: {
 					__type: 'Pointer',
 					className: 'Trivia',

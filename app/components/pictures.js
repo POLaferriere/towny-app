@@ -24,12 +24,12 @@ const Pictures = React.createClass({
 			showComments: false,
 			logIn: false,
 			commenting: false,
+			pictures: store.getPictureCollection(session.getTownId())
 		}
 	},
 
 	componentWillMount() {
-		let pictures = store.getPictureCollection(session.getTownId());
-		pictures.fetch().then(() => {this.forceUpdate()});
+		this.state.pictures.fetch().then(() => {this.forceUpdate()});
 	},
 
 	handleAdd() {
@@ -73,21 +73,22 @@ const Pictures = React.createClass({
 
 	handleSubmit(e) {
 		let townId = session.getTownId()
-		let pictures = store.getPictureCollection(townId);
-
 		e.preventDefault();
 
-		pictures.create({
+		this.state.pictures.create({
 			url: this.state.loadingImage,
 			caption: this.state.modalInput,
 			town: {objectId: townId},
 			user: {objectId: session.getUserId()}
 		})
 
-		this.setState({
-			showModal: false,
-			loadingImage: '',
-			modalInput: '',
+		this.state.pictures.fetch().then(() => {
+			this.setState({
+				showModal: false,
+				loadingImage: '',
+				modalInput: '',
+				pictures: this.state.pictures,
+			})
 		})
 	},
 
