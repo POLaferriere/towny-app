@@ -658,6 +658,15 @@ body {
 	text-align: left;
 }
 
+.carousel-modal-comment-user-time {
+	text-align: right;
+	> * {
+		display: inline-block;
+		margin: 0 3px;
+		color: $grey
+	}
+}
+
 .carousel-modal-click {
 	float: left;
 	margin-top: 10px;
@@ -821,6 +830,15 @@ body {
 
 .event-page-comment {
 	margin: 10px 0;
+}
+
+.event-page-comment-user-time {
+	text-align: right;
+	> * {
+		display: inline-block;
+		margin: 0 3px;
+		color: $grey
+	}
 }
 
 .event-comment-form {

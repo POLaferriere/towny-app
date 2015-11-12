@@ -7,6 +7,7 @@ import CarouselModal from './carousel-modal';
 import Picture from './picture';
 import AddPictureComment from './add-picture-comment'
 import Login from './login';
+import moment from 'moment';
 
 
 let Masonry = masonry(React);
@@ -184,9 +185,16 @@ const Pictures = React.createClass({
 									return (
 										<div>
 											<p className='carousel-modal-comment'>{comment.get('text')}</p>
+											<div className="carousel-modal-comment-user-time">
+												<p className="carousel-modal-comment-time">{moment(comment.get('createdAt')).fromNow()}</p>
+												<p className="carousel-modal-comment-user">{'by ' + comment.get('comment_by').username}</p>
+											</div>
 										</div>
 										)
 								})}
+								
+
+								
 								{session.hasUser() &&
 									(!this.state.commenting && <p className='carousel-modal-click' onClick={this.comment}>What do you think?</p>)}
 								{!session.hasUser() &&

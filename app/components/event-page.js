@@ -276,7 +276,14 @@ const EventPage = React.createClass({
 				{this.state.seeComments &&
 					<ul className="event-page-comments">
 						{comments.map((comment) => {
-							return <li className='event-page-comment'>{comment.get('text')}</li>
+							return (
+								<li>
+									<p className="event-page-comment">{comment.get('text')}</p>
+									<div className="event-page-comment-user-time">
+										<p className="event-page-comment-time">{moment(comment.get('createdAt')).fromNow()}</p>
+										<p className="event-page-comment-user">{'by ' + comment.get('comment_by').username}</p>
+									</div>
+								</li>)
 						})}
 						{session.hasUser() && 
 							<form className='event-comment-form' onSubmit={this.submitComment.bind(this, event)}>
