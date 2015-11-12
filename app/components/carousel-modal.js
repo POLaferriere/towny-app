@@ -35,6 +35,11 @@ const CarouselModal = React.createClass({
 		})
 	},
 
+	delete(picture, e) {
+		e.preventDefault();
+		picture.destroy().then(() => {this.setState({showModal: false, index: this.state.index+1})})
+	},
+
 	close() {
 		this.setState({
 			showModal: false,
@@ -116,8 +121,8 @@ const CarouselModal = React.createClass({
 									<h1>Are you sure you want to delete this picture?</h1>
 									<div className="warning-modal-buttons">
 										<ButtonGroup bsSize='lg'>
-											<Button bsStyle='danger'>Delete</Button>
-											<Button>Go Back</Button>
+											<Button bsStyle='danger' onClick={this.delete.bind(this, picture)}>Delete</Button>
+											<Button onClick={this.close}>Go Back</Button>
 										</ButtonGroup>
 									</div>
 								</Modal.Body>

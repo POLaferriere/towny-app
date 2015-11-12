@@ -134,7 +134,7 @@ const Pictures = React.createClass({
 	},
 
 	render() {
-		let pictures = store.getPictureCollection(session.getTownId());
+		let pictures = this.state.pictures;
 		let options = {
 			columnWidth: 200,
 		}
