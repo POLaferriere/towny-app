@@ -21,8 +21,18 @@ const CommentForm = React.createClass({
 
 	handleSubmit(e) {
 		e.preventDefault();
-		store.commentOnTrivia(this.props.triviaId, this.state.comment);
-		this.props.onComment();
+		
+		let userId = session.get('currentUser').get('objectId');
+		let id = this.props.triviaId;
+		let comment = this.state.comment
+    let comments = store.getTriviaComments(id);
+    comments.create({
+      text: comment,
+      comment_on: {objectId: id},
+      comment_by: {objectId: userId}, 
+    }, {
+    	success: () => {this.props.onComment()}
+    })
 	},
 
 	render() {

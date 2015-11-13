@@ -82,7 +82,9 @@ const TriviaQuote = React.createClass({
 	},
 
 	onChange() {
-		this.forceUpdate();
+		this.state.comments.fetch().then(() => {
+			this.setState({comments: this.state.comments,})
+		})
 	},
 
 	onSubmit() {

@@ -34,6 +34,7 @@ const TriviaComments = React.createClass({
 		this.setState({
 			commenting: false,
 		});
+		this.forceUpdate();
 		this.props.onChange();
 	},
 

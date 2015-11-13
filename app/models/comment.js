@@ -17,6 +17,11 @@ const Comment = Backbone.Model.extend({
           "className": "Trivia",
           "objectId": this.get('comment_on').objectId
         },
+        comment_by: {
+          __type: 'Pointer',
+          className: '_User',
+          objectId: this.get('comment_by').objectId,
+        }
       });
     } else {
       return _.clone(this.attributes);

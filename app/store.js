@@ -78,6 +78,7 @@ export default {
     comments.create({
       text: comment,
       comment_on: {objectId: id},
+      comment_by: {objectId: userId},
     })
   },
 
