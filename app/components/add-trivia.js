@@ -22,7 +22,6 @@ var AddTrivia = React.createClass({
 
 	componentWillMount(){
 		let trivia = store.getTriviaCollection(session.getTownId());
-		console.log(trivia);
 
 		if (this.props.triviaId) {
 			this.setState({

@@ -84,7 +84,7 @@ const Trivia = React.createClass({
 
 				<ul>
 					{triviaQuotes.map((quote) => {
-						return (<TriviaQuote key={quote.id} model={quote} onChange={this.onChange}/>)
+						return (<TriviaQuote key={quote.get('id')} model={quote} onChange={this.onChange}/>)
 					})}
 				</ul>
 				<Glyphicon glyph='plus-sign' className='trivia-add' onClick={this.handleAdd} />

@@ -9,7 +9,7 @@ import TriviaComments from './trivia-comments';
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import AddTrivia from './add-trivia';
 
-const likeTooltip = (<Tooltip>You must be logged in to like</Tooltip>);
+const likeTooltip = (<Tooltip id='trivia-quote-tooltip'>You must be logged in to like</Tooltip>);
 
 const TriviaQuote = React.createClass({
 	propTypes: {

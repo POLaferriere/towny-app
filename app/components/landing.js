@@ -30,7 +30,7 @@ const Landing = React.createClass({
 				<Carousel className='landing-carousel' controls={false} indicators={false}>
 				{pictures.map((picture) => {
 					return(
-						<CarouselItem>
+						<CarouselItem key={picture.get('url')}>
 							<img className='landing-carousel-image' width={500} src={picture.get('url')} alt=''/>
 						</CarouselItem>)
 				})}

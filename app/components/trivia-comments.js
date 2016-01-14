@@ -3,7 +3,7 @@ import TriviaComment from './trivia-comment';
 import CommentForm from './comment-form';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 
-const commentTooltip = (<Tooltip>You must be logged in to comment</Tooltip>);
+const commentTooltip = (<Tooltip id='comments-tooltip'>You must be logged in to comment</Tooltip>);
 
 const TriviaComments = React.createClass({
 	propTypes: {

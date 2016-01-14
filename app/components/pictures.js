@@ -12,7 +12,7 @@ import moment from 'moment';
 
 let Masonry = masonry(React);
 
-const commentTooltip = (<Tooltip>You must be logged in to comment</Tooltip>);
+const commentTooltip = (<Tooltip id='pictures-tooltip'>You must be logged in to comment</Tooltip>);
 
 const Pictures = React.createClass({
 	getInitialState() {
@@ -102,7 +102,6 @@ const Pictures = React.createClass({
 	},
 
 	showComments(comments) {
-		console.log(comments);
 		this.setState({
 			showComments: !this.state.showComments,
 			comments: comments

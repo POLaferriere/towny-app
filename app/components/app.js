@@ -165,7 +165,7 @@ var App = React.createClass({
                     rootClose 
                     placement="bottom"
                     id='login-popover' 
-                    overlay={<Popover><Login popover={true} onLogin={this.onSubmit}/></Popover>}>
+                    overlay={<Popover id='hometown-popover'><Login popover={true} onLogin={this.onSubmit}/></Popover>}>
                     <MenuItem>Login</MenuItem>
                   </OverlayTrigger>}
                 {!session.hasUser() && <NavItem onClick={this.handleSignup}>Sign Up</NavItem>}

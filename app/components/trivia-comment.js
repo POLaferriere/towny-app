@@ -4,7 +4,7 @@ import store from '../store';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import moment from 'moment';
 
-const commentTooltip = (<Tooltip>You must be logged in to comment</Tooltip>);
+const commentTooltip = (<Tooltip id='comment-tooltip'>You must be logged in to comment</Tooltip>);
 
 const TriviaComment = React.createClass({
 	propTypes: {

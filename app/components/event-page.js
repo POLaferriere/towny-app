@@ -10,7 +10,7 @@ import _ from 'underscore';
 
 momentLocalizer(moment);
 
-const likeTooltip = (<Tooltip>You must be logged in to like</Tooltip>);
+const likeTooltip = (<Tooltip id='event-page-tooltip'>You must be logged in to like</Tooltip>);
 
 
 const EventPage = React.createClass({

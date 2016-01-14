@@ -4,7 +4,7 @@ import {History} from 'react-router';
 import store from '../store';
 import $ from 'jquery';
 
-const hometownTooltip = (<Tooltip>You must be logged in to set hometowns</Tooltip>)
+const hometownTooltip = (<Tooltip id='town-tooltip'>You must be logged in to set hometowns</Tooltip>)
 
 const Town = React.createClass({
 	propTypes: {

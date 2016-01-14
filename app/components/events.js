@@ -122,8 +122,8 @@ const Events = React.createClass ({
 						})}
 					</div>}
 
-				<Modal show={this.state.modal}>
-					<Modal.Header closeButton onHide={this.close}>
+				<Modal show={this.state.modal} onHide={this.close}>
+					<Modal.Header closeButton >
 						<h1>Create an event</h1>
 					</Modal.Header>
 					<Modal.Body>

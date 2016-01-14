@@ -3,7 +3,7 @@ import {Carousel, CarouselItem, Glyphicon, Modal, ButtonGroup, Button, Tooltip, 
 import store from '../store';
 import _ from 'underscore';
 
-const likeTooltip = (<Tooltip>You must be logged in to like</Tooltip>);
+const likeTooltip = (<Tooltip id='carousel-modal-tooltip'>You must be logged in to like</Tooltip>);
 
 const CarouselModal = React.createClass({
 	propTypes: {
@@ -84,7 +84,7 @@ const CarouselModal = React.createClass({
 					});
 
 					return (
-						<CarouselItem className='carousel-modal-image modal-container'>
+						<CarouselItem className='carousel-modal-image modal-container' key={picture.get('objectId')}>
 							<img width={900} src={picture.get('url')} />
 							<p className="carousel-modal-caption">{picture.get('caption')}</p>
 							<div className="carousel-modal-stats">
